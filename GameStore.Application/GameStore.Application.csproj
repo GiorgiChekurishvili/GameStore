@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+    <Folder Include="Services\Authentication\Handles\Commands\" />
+    <Folder Include="Services\Authentication\Handles\Queries\" />
+    <Folder Include="Services\Authentication\Requests\Commands\" />
+    <Folder Include="Services\Authentication\Requests\Queries\" />
+    <Folder Include="Services\Carts\Handles\Commands\" />
+    <Folder Include="Services\Carts\Handles\Queries\" />
+    <Folder Include="Services\Carts\Requests\Commands\" />
+    <Folder Include="Services\Carts\Requests\Queries\" />
+    <Folder Include="Services\Categories\Handles\Commands\" />
+    <Folder Include="Services\Categories\Handles\Queries\" />
+    <Folder Include="Services\Categories\Requests\Commands\" />
+    <Folder Include="Services\Categories\Requests\Queries\" />
+    <Folder Include="Services\Library\Handles\Commands\" />
+    <Folder Include="Services\Library\Handles\Queries\" />
+    <Folder Include="Services\Library\Requests\Commands\" />
+    <Folder Include="Services\Library\Requests\Queries\" />
+    <Folder Include="Services\SystemRequirements\Handles\Commands\" />
+    <Folder Include="Services\SystemRequirements\Handles\Queries\" />
+    <Folder Include="Services\SystemRequirements\Requests\Commands\" />
+    <Folder Include="Services\SystemRequirements\Requests\Queries\" />
+    <Folder Include="Services\Transactions\Handles\Commands\" />
+    <Folder Include="Services\Transactions\Handles\Queries\" />
+    <Folder Include="Services\Transactions\Requests\Commands\" />
+    <Folder Include="Services\Transactions\Requests\Queries\" />
+    <Folder Include="Services\VideoGames\Handles\Commands\" />
+    <Folder Include="Services\VideoGames\Handles\Queries\" />
+    <Folder Include="Services\VideoGames\Requests\Commands\" />
+    <Folder Include="Services\VideoGames\Requests\Queries\" />
+    <Folder Include="Services\Wishlists\Handles\Commands\" />
+    <Folder Include="Services\Wishlists\Handles\Queries\" />
+    <Folder Include="Services\Wishlists\Requests\Commands\" />
+    <Folder Include="Services\Wishlists\Requests\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+</Project>
