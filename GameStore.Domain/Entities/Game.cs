@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities
 {
-    internal class Game : BaseDomainEntity
+    public class Game : BaseDomainEntity
     {
         public required string Name { get; set; }
         public required string Description { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities.Common
 {
-    internal abstract class BaseDomainEntity
+    public abstract class BaseDomainEntity
     {
         public int Id { get; set; }
     }

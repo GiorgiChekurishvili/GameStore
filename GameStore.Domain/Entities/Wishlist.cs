@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities
 {
-    internal class Wishlist : BaseDomainEntity
+    public class Wishlist : BaseDomainEntity
     {
         public int UserId { get; set; }
         public User? User { get; set; }

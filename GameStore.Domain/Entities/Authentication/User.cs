@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities.Authentication
 {
-    internal class User : BaseDomainEntity
+    public class User : BaseDomainEntity
     {
         public required string UserName { get; set; }
         public required string Email { get; set; }

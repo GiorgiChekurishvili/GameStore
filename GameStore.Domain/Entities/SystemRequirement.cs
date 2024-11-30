@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities
 {
-    internal class SystemRequirement : BaseDomainEntity
+    public class SystemRequirement : BaseDomainEntity
     {
         public int GameId { get; set; }
         public Game? Game { get; set; }

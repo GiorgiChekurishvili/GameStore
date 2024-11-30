@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities.Authentication
 {
-    internal class Role : BaseDomainEntity
+    public class Role : BaseDomainEntity
     {
         public required string RoleName { get; set; }
 

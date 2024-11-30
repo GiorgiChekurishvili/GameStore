@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities
 {
-    internal class Transaction : BaseDomainEntity
+    public class Transaction : BaseDomainEntity
     {
         public int UserId { get; set; }
         public User? User { get; set; }
