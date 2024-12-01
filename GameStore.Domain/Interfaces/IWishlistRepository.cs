@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface IWishlistRepository
+    public interface IWishlistRepository
     {
         Task AddGameToWishlistAsynt(Wishlist wishlist);
         Task RemoveGameFromWishlist(Wishlist wishlist);

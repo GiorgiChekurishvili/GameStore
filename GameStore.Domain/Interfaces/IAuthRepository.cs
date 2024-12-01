@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface IAuthRepository
+    public interface IAuthRepository
     {
         Task<User> Login(string username, string password);
         Task<User> Register(User user, string password);

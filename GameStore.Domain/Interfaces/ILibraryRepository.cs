@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface ILibraryRepository
+    public interface ILibraryRepository
     {
         Task<IEnumerable<Library>> GeAlltLibraryGames();
         Task<IEnumerable<Library>> GetLibraryGameById(int gameId);

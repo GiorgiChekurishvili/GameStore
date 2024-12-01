@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface IGameRepository
+    public interface IGameRepository
     {
         Task<IEnumerable<Game>> GetAllGames();
         Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId);

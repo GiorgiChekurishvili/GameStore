@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface ICartRepository
+    public interface ICartRepository
     {
         Task AddGameToCart(Cart cart);
         Task<IEnumerable<Game>> GetCartGames(int userId);

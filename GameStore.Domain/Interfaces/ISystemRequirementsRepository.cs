@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface ISystemRequirementsRepository
+    public interface ISystemRequirementsRepository
     {
         Task AddSystemRequirements(SystemRequirement systemRequirement);
         Task UpdateSystemRequirements(SystemRequirement systemRequirement);

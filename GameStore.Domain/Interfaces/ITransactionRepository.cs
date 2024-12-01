@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace GameStore.Domain.Interfaces
 {
-    internal interface ITransactionRepository
+    public interface ITransactionRepository
     {
         Task<IEnumerable<Transaction>> GetAllTransactionsByUserId(int userId);
         Task<decimal> GetUserBalance(int userId);
