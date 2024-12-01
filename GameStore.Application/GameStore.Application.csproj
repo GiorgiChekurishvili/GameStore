@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
     <Folder Include="Services\Authentication\Handles\Commands\" />
     <Folder Include="Services\Authentication\Handles\Queries\" />
     <Folder Include="Services\Authentication\Requests\Commands\" />
@@ -45,6 +44,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj" />
   </ItemGroup>
 
 </Project>
