@@ -14,5 +14,6 @@ namespace GameStore.Domain.Entities
         public User? User { get; set; }
         public decimal TransactionsMade { get; set; }
         public required string Description { get; set; }
+        public DateTime TransactionDate { get; set; } = DateTime.Now;
     }
 }
