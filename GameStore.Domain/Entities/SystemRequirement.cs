@@ -16,6 +16,7 @@ namespace GameStore.Domain.Entities
         public required string Processor { get; set; }
         public required string MemoryRam { get; set; }
         public required string GraphicsCard { get; set; }
+        public string? VideoMemoryVram { get; set; }
         public string? DirectX { get; set; }
         public string? Network { get; set; }
         public required string Storage { get; set; }
