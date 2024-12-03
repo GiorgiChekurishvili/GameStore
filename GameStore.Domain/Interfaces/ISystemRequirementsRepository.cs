@@ -9,8 +9,8 @@ namespace GameStore.Domain.Interfaces
 {
     public interface ISystemRequirementsRepository
     {
-        Task AddSystemRequirements(SystemRequirement systemRequirement);
+        Task<int> AddSystemRequirements(SystemRequirement systemRequirement);
         Task UpdateSystemRequirements(SystemRequirement systemRequirement);
-        Task<SystemRequirement> GetSystemRequirementsForGame(int gameId);
+        Task<IEnumerable<SystemRequirement>> GetSystemRequirementsForGame(int gameId);
     }
 }
