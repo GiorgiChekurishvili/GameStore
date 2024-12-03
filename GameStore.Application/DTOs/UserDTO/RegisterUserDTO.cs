@@ -10,14 +10,14 @@ namespace GameStore.Application.DTOs.UserDTO
     public class RegisterUserDTO
     {
         [Required]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         [Required, EmailAddress]
-        public required string Email { get; set; }
+        public string? Email { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         [Required]
         [Compare("Password", ErrorMessage = "Passwords dont match")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
 
     }
 }
