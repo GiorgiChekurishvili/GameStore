@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.DTOs.GameDTO
 {
-    public class GameUploadDTO
+    public class GameUploadUpdateDTO
     {
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Required]
         public decimal Price { get; set; }
         [Required]
-        public List<int> CategoryIds { get; set; }
+        public List<int>? CategoryIds { get; set; }
     }
 }

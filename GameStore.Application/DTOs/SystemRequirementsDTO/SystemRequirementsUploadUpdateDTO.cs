@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.DTOs.SystemRequirementsDTO
 {
-    public class SystemRequirementsUploadDTO
+    public class SystemRequirementsUploadUpdateDTO
     {
         [Required]
         public int GameId { get; set; }
@@ -29,4 +29,4 @@ namespace GameStore.Application.DTOs.SystemRequirementsDTO
         public string? AdditionalNotes { get; set; }
     }
 }
-}
+
