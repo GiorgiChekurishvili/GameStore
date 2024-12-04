@@ -21,14 +21,6 @@
     <Folder Include="Services\Categories\Requests\Queries\" />
     <Folder Include="Services\Library\Handles\Commands\" />
     <Folder Include="Services\Library\Requests\Commands\" />
-    <Folder Include="Services\Transactions\Handles\Commands\" />
-    <Folder Include="Services\Transactions\Handles\Queries\" />
-    <Folder Include="Services\Transactions\Requests\Commands\" />
-    <Folder Include="Services\Transactions\Requests\Queries\" />
-    <Folder Include="Services\Wishlists\Handles\Commands\" />
-    <Folder Include="Services\Wishlists\Handles\Queries\" />
-    <Folder Include="Services\Wishlists\Requests\Commands\" />
-    <Folder Include="Services\Wishlists\Requests\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
