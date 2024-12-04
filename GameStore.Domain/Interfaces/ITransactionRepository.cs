@@ -11,7 +11,7 @@ namespace GameStore.Domain.Interfaces
     {
         Task<IEnumerable<Transaction>> GetAllTransactionsByUserId(int userId);
         Task<decimal> GetUserBalance(int userId);
-        Task<decimal> FillBalanceForUser(int userId, decimal balance);
+        Task<decimal> FillBalanceByUserId(int userId, decimal balance);
         
     }
 }
