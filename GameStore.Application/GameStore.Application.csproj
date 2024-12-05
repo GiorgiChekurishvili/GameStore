@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Authentication\Handles\Commands\" />
+    <Folder Include="Services\Authentication\Handles\Queries\" />
+    <Folder Include="Services\Authentication\Requests\Commands\" />
+    <Folder Include="Services\Authentication\Requests\Queries\" />
+    <Folder Include="Services\Carts\Handles\Commands\" />
+    <Folder Include="Services\Carts\Handles\Queries\" />
+    <Folder Include="Services\Carts\Requests\Commands\" />
+    <Folder Include="Services\Carts\Requests\Queries\" />
+    <Folder Include="Services\Categories\Handles\Commands\" />
+    <Folder Include="Services\Categories\Handles\Queries\" />
+    <Folder Include="Services\Categories\Requests\Commands\" />
+    <Folder Include="Services\Categories\Requests\Queries\" />
     <Folder Include="Services\Library\Handles\Commands\" />
     <Folder Include="Services\Library\Requests\Commands\" />
   </ItemGroup>
