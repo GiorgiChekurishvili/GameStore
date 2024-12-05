@@ -10,7 +10,7 @@ namespace GameStore.Domain.Interfaces
     public interface ICartRepository
     {
         Task AddGameToCart(Cart cart);
-        Task<IEnumerable<Game>> GetCartGames(int userId);
+        Task<IEnumerable<Cart>> GetCartGames(int userId);
         Task CheckoutGames(int userId);
         Task RemoveGameFromCart(Cart cart);
         Task RemoveAllGamesFromCart(int userId);
