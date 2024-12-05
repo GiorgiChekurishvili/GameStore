@@ -11,6 +11,7 @@ namespace GameStore.Domain.Interfaces
     {
         Task<IEnumerable<Game>> GetAllGames();
         Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId);
+        Task<IEnumerable<Game>> GetAllGamesByCategory(int categoryId);
         Task<IEnumerable<Game>> GetGameById(int gameId);
         Task<int> AddGame(Game game);
         Task UpdateGame(Game game);
