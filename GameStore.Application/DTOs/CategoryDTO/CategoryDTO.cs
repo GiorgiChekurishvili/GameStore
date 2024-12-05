@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.DTOs.CategoryDTO
 {
-    public class CategoryRetrieveDTO
+    public class CategoryDTO
     {
         public int Id { get; set; }
         public required string CategoryName { get; set; }
