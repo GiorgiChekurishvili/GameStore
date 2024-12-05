@@ -25,6 +25,11 @@ namespace GameStore.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Game>> GetAllGamesByCategory(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId)
         {
             throw new NotImplementedException();

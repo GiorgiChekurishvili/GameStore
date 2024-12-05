@@ -10,7 +10,7 @@ namespace GameStore.Infrastructure.Repositories
 {
     internal class CategoryRepository : ICategoryRepository
     {
-        public Task<int> AddCategory(Category category)
+        public Task<int> AddCategory(string CategoryName)
         {
             throw new NotImplementedException();
         }
