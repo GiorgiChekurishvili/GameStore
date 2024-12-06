@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.VideoGames.Requests.Commands;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
@@ -23,10 +24,18 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
 
         public async Task<Unit> Handle(UpdateGameRequest request, CancellationToken cancellationToken)
         {
-            var data = await _gameRepository.GetGameById(request.Id);
-            if ( data == null )
+            var datas = await _gameRepository.GetAllGames();
+            foreach (var data in datas)
             {
-                return Unit.Value;
+                if (data.Name.ToLower() == request.GameUpdateDTO.Name!.ToLower())
+                {
+                    throw new BadRequestException("Game Already Exists");
+                }
+            }
+            var gameId = await _gameRepository.GetGameById(request.Id);
+            if ( gameId == null )
+            {
+                throw new NotFoundException("Game not found()");
             }
             var map = _mapper.Map<Game>(request.GameUpdateDTO);
             await _gameRepository.UpdateGame(map);

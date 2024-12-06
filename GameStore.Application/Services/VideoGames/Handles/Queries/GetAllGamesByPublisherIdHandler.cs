@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Application.DTOs.GameDTO;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.VideoGames.Requests.Queries;
 using GameStore.Domain.Interfaces;
 using MediatR;
@@ -23,6 +24,10 @@ namespace GameStore.Application.Services.VideoGames.Handles.Queries
         public async Task<IEnumerable<GamesRetrieveDTO>> Handle(GetAllGamesByPublisherId request, CancellationToken cancellationToken)
         {
             var data = await _gameRepository.GetAllGamesByPublisherId(request.UserId);
+            if (data == null)
+            {
+                throw new NotFoundException("Game Not Found");
+            }
             var map = _mapper.Map<IEnumerable<GamesRetrieveDTO>>(data);
             return map;
         }
