@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Authentication.Requests.Commands;
 using GameStore.Domain.Entities.Authentication;
 using GameStore.Domain.Interfaces;
@@ -25,9 +26,9 @@ namespace GameStore.Application.Services.Authentication.Handles.Commands
         {
             var data = await _authRepository.CheckUserByUserName(request.UserDTO!.UserName);
             if (data == null)
-                throw new KeyNotFoundException("User Not Found");
+                throw new NotFoundException("User Not Found");
             if(!VerifyPasswordHash(request.UserDTO.Password, data.PasswordHash!, data.PasswordSalt!))
-                throw new ArgumentException("Password is incorrect");
+                throw new BadRequestException("Password is incorrect");
             
             var map = _mapper.Map<User>(request.UserDTO);
             var token = await _authRepository.Login(map);
