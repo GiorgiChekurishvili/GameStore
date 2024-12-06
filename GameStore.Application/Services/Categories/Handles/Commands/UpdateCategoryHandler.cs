@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Categories.Requests.Commands;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
@@ -24,6 +25,14 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
 
         public async Task<Unit> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
+            var categories = await _categoryRepository.GetAllCategories();
+            foreach (var category in categories)
+            {
+                if (category.CategoryName.ToLower() == request.Category.CategoryName.ToLower())
+                {
+                    throw new BadRequestException($"A Category named '{category.CategoryName}' already exists.");
+                }
+            }
             var map = _mapper.Map<Category>(request.Category);
             await _categoryRepository.UpdateCategory(map);
             return Unit.Value;
