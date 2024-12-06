@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.SystemRequirements.Requests.Commands;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
@@ -22,6 +23,9 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
         }
         public async Task<Unit> Handle(UpdateSystemRequirementsRequest request, CancellationToken cancellationToken)
         {
+            var data = await _repository.GetSystemRequirementsForGame(request.SysUpdateDTO!.GameId);
+            if (data.Count() >= 2)
+                throw new BadRequestException("there is already 2 System requirement type for this game ");
             var map = _mapper.Map<SystemRequirement>(request.SysUpdateDTO);
             await _repository.UpdateSystemRequirements(map);
             return Unit.Value;

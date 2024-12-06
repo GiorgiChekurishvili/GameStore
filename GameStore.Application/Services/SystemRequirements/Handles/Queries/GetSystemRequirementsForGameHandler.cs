@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Application.DTOs.SystemRequirementsDTO;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.SystemRequirements.Requests.Queries;
 using GameStore.Domain.Interfaces;
 using MediatR;
@@ -23,13 +24,13 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Queries
         public async Task<IEnumerable<SystemRequirementsRetrieveDTO>> Handle(GetSystemRequirementsForGameRequest request, CancellationToken cancellationToken)
         {
             var data = await _repository.GetSystemRequirementsForGame(request.Id);
-            if (data != null)
+            if (data == null)
             {
-                var map = _mapper.Map<IEnumerable<SystemRequirementsRetrieveDTO>>(data);
-                return map;
+                throw new NotFoundException("SystemRequirements Not Found for this game");
             }
-            return null;
 
+            var map = _mapper.Map<IEnumerable<SystemRequirementsRetrieveDTO>>(data);
+            return map;
         }
     }
 }
