@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Application.DTOs.LibraryDTO;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Library.Requests.Queries;
 using GameStore.Domain.Interfaces;
 using MediatR;
@@ -23,12 +24,12 @@ namespace GameStore.Application.Services.Library.Handles.Queries
         public async Task<LibraryRetrieveDTO> Handle(GetLibraryGameByIdRequest request, CancellationToken cancellationToken)
         {
             var data = await _libraryRepository.GetLibraryGameById(request.Id);
-            if (data != null)
+            if (data == null)
             {
-                var map = _mapper.Map<LibraryRetrieveDTO>(data);
-                return map;
+                throw new NotFoundException("This game in your library doesnt exist");
             }
-            return null;
+            var map = _mapper.Map<LibraryRetrieveDTO>(data);
+            return map;
 
         }
     }
