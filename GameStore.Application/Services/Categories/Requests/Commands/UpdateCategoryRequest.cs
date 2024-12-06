@@ -10,6 +10,6 @@ namespace GameStore.Application.Services.Categories.Requests.Commands
 {
     public class UpdateCategoryRequest : IRequest<Unit>
     {
-        public CategoryDTO Category { get; set; }
+        public CategoryDTO? Category { get; set; }
     }
 }
