@@ -28,7 +28,7 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
             var categories = await _categoryRepository.GetAllCategories();
             foreach (var category in categories)
             {
-                if (category.CategoryName.ToLower() == request.Category.CategoryName.ToLower())
+                if (category.CategoryName.ToLower() == request.Category!.CategoryName.ToLower())
                 {
                     throw new BadRequestException($"A Category named '{category.CategoryName}' already exists.");
                 }
