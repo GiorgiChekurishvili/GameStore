@@ -16,6 +16,8 @@ namespace GameStore.Application.DTOs.GameDTO
         [Required]
         public decimal Price { get; set; }
         [Required]
+        public int DeveloperId { get; set; }
+        [Required]
         public List<int>? CategoryIds { get; set; }
     }
 }
