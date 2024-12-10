@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.DTOs.CategoryDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Categories.Requests.Commands;
 using GameStore.Domain.Entities;
@@ -25,6 +26,12 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
 
         public async Task<Unit> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
+            var validator = new CategoryUpdateDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.Category!);
+
+            if (validationResult.IsValid == false)
+                throw new ValidationException(validationResult);
+
             var categories = await _categoryRepository.GetAllCategories();
             foreach (var category in categories)
             {
