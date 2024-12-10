@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using GameStore.Application.DTOs.TransactionDTO;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace GameStore.Application.Services.Transactions.Requests.Commands
 {
     public class FillBalanceByUserIdRequest : IRequest<decimal>
     {
-        public int UserId { get; set; }
-        public decimal Balance { get; set; }
+        public required FIllBalanceTransactionDTO FillBalance {  get; set; }
     }
 }
