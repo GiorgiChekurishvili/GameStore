@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.DTOs.GameDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.VideoGames.Requests.Commands;
 using GameStore.Domain.Entities;
@@ -23,6 +24,12 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
         }
         public async Task<int> Handle(AddGameRequest request, CancellationToken cancellationToken)
         {
+            var validator = new GameUploadUpdateDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.GameUploadDTO!);
+
+            if (validationResult.IsValid == false)
+                throw new ValidationException(validationResult);
+
             var datas = await _gameRepository.GetAllGames();
             foreach (var data in datas)
             {

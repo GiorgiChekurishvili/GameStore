@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.DTOs.SystemRequirementsDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.SystemRequirements.Requests.Commands;
 using GameStore.Domain.Entities;
@@ -23,6 +24,14 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
         }
         public async Task<Unit> Handle(UpdateSystemRequirementsRequest request, CancellationToken cancellationToken)
         {
+            var validator = new SystemReqUploadUpdateDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.SysUpdateDTO!);
+
+            if (validationResult.IsValid == false)
+            {
+                throw new ValidationException(validationResult);
+            }
+
             var data = await _repository.GetSystemRequirementsForGame(request.SysUpdateDTO!.GameId);
             if (data.Count() >= 2)
                 throw new BadRequestException("there is already 2 System requirement type for this game ");

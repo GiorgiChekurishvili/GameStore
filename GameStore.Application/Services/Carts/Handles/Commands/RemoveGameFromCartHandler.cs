@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using GameStore.Application.DTOs.CartDTO;
+using GameStore.Application.DTOs.CartDTO.Validators;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Carts.Requests.Commands;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
@@ -22,6 +25,14 @@ namespace GameStore.Application.Services.Carts.Handles.Commands
         }
         public async Task<Unit> Handle(RemoveGameFromCartRequest request, CancellationToken cancellationToken)
         {
+            var validator = new CartCommandsDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.CartDTO!);
+
+            if (validationResult.IsValid == false)
+            {
+                throw new ValidationException(validationResult);
+            }
+
             var map = _mapper.Map<Cart>(request.CartDTO);
             await _cartRepository.RemoveGameFromCart(map);
             return Unit.Value;

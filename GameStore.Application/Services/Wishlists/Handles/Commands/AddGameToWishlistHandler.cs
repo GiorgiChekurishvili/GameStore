@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GameStore.Application.DTOs.GameDTO;
 using GameStore.Application.DTOs.WishlistDTO;
+using GameStore.Application.DTOs.WishlistDTO.Validators;
+using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Wishlists.Requests.Commands;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
@@ -27,6 +29,12 @@ namespace GameStore.Application.Services.Wishlists.Handles.Commands
 
         public async Task<Unit> Handle(AddGameToWishlistRequest request, CancellationToken cancellationToken)
         {
+            var validator = new WishlistUploadDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.Wishlist!);
+
+            if (validationResult.IsValid == false)
+                throw new ValidationException(validationResult);
+
             var game = await _gameRepository.GetGameById(request.Wishlist!.GameId);
             if (game != null)
             {
