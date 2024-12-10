@@ -1,4 +1,6 @@
-﻿using GameStore.Application.Services.Transactions.Requests.Commands;
+﻿using GameStore.Application.DTOs.TransactionDTO.Validators;
+using GameStore.Application.Exceptions;
+using GameStore.Application.Services.Transactions.Requests.Commands;
 using GameStore.Domain.Interfaces;
 using MediatR;
 using System;
@@ -18,7 +20,11 @@ namespace GameStore.Application.Services.Transactions.Handles.Commands
         }
         public async Task<decimal> Handle(FillBalanceByUserIdRequest request, CancellationToken cancellationToken)
         {
-            var data = await _transactionRepository.FillBalanceByUserId(request.UserId, request.Balance);
+            var validator = new FillBalanceTransactionDTOValidator();
+            var validationResult = await validator.ValidateAsync(request.FillBalance);
+            if (validationResult.IsValid == false)
+                throw new ValidationException(validationResult);
+            var data = await _transactionRepository.FillBalanceByUserId(request.FillBalance.UserId, request.FillBalance.Balance);
             return data;
         }
     }
