@@ -19,7 +19,6 @@ namespace GameStore.Application.DTOs.SystemRequirementsDTO.Validators
             .WithMessage("Requirement Type must be either 'Minimum' or 'Recommended'.");
 
             RuleFor(x => x.Os)
-            .MinimumLength(3).WithMessage("Operating System must be at least 3 characters long.")
             .Must(type => new[] { "Windows", "MacOs", "Linux" }.Contains(type))
             .WithMessage("Requirement Type must be either 'Windows', 'MacOs' or 'Linux'");
 
