@@ -15,7 +15,7 @@ namespace GameStore.Application.DTOs.GameDTO.Validators
                 .WithMessage("Name must not exceed 100 characters");
             RuleFor(x => x.Description).MaximumLength(500)
                 .WithMessage("Description Must not exceed 500 characters");
-            RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be a positive number and greater then 0");
+            RuleFor(x => x.Price).GreaterThanOrEqualTo(0).WithMessage("Price must be a positive number or free (e.g 0)");
             RuleFor(x => x.DeveloperId)
                 .GreaterThan(0).WithMessage("Developer ID must be a positive integer.");
             RuleFor(x => x.CategoryIds)
