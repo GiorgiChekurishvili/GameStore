@@ -21,6 +21,11 @@ namespace GameStore.Application.DTOs.UserDTO.Validators
             .Matches(@"[a-z]").WithMessage("Password must contain at least one lowercase letter.")
             .Matches(@"\d").WithMessage("Password must contain at least one number.")
             .Matches(@"[!?@#$%^&+=]").WithMessage("Password must contain at least one special character.");
+            RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress()
+            .MaximumLength(254)
+            .WithMessage("Email must be a valid email address and less than 254 characters.");
 
         }
     }
