@@ -13,7 +13,7 @@ namespace GameStore.Domain.Entities.Authentication
         public required string Email { get; set; }
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordSalt { get; set; }
-        public decimal Balance { get; set; } = 0;
+        public decimal Balance { get; set; }
         public DateTime UserCreated { get; set; } = DateTime.Now;
 
         public ICollection<UserRole>? Roles { get; set; }
