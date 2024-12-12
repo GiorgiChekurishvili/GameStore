@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,59 @@ using System.Threading.Tasks;
 
 namespace GameStore.Infrastructure.Repositories
 {
-    internal class CartRepository : ICartRepository
+    public class CartRepository : ICartRepository
     {
-        public Task AddGameToCart(Cart cart)
+        readonly GameStoreDbContext _context;
+        public CartRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task AddGameToCart(Cart cart)
+        {
+            await _context.Carts.AddAsync(cart);
+            await _context.SaveChangesAsync();
         }
 
-        public Task CheckoutGames(int userId)
+        public async Task CheckoutGames(int userId)
         {
-            throw new NotImplementedException();
+            var data = await _context.Carts.Where(x=>x.UserId == userId).ToListAsync();
+            
+            foreach (var item in data)
+            {
+                Library library = new Library { GameId = item.GameId, UserId = item.UserId };
+                await _context.Libraries.AddAsync(library);
+                _context.Carts.Remove(item);
+
+            }
+            await _context.SaveChangesAsync();
+
+            
         }
 
-        public Task<IEnumerable<Cart>> GetCartGames(int userId)
+        public async Task<IEnumerable<Cart>> GetCartGames(int userId)
         {
-            throw new NotImplementedException();
+            var data = await _context.Carts.Include(x=>x.Game).Where(x=>x.UserId == userId).ToListAsync();
+            return data;
         }
 
-        public Task RemoveAllGamesFromCart(int userId)
+        public async Task RemoveAllGamesFromCart(int userId)
         {
-            throw new NotImplementedException();
+            var data = await _context.Carts.Where(x => x.UserId == userId).ToListAsync();
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    _context.Carts.Remove(item);
+                }
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task RemoveGameFromCart(Cart cart)
+        public async Task RemoveGameFromCart(Cart cart)
         {
-            throw new NotImplementedException();
+            var data = await _context.Carts.Where(x=> x.UserId == cart.UserId && x.GameId == cart.GameId).FirstOrDefaultAsync();
+            _context.Remove(data!);
+            await _context.SaveChangesAsync();
         }
     }
 }
