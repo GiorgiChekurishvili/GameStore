@@ -1,28 +1,41 @@
-﻿using GameStore.Domain.Interfaces;
+﻿using GameStore.Domain.Entities;
+using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace GameStore.Infrastructure.Repositories
 {
     internal class TransactionRepository : ITransactionRepository
     {
-        public Task<decimal> FillBalanceByUserId(int userId, decimal balance)
+        readonly GameStoreDbContext _context;
+        public TransactionRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<decimal> FillBalanceByUserId(int userId, decimal balance)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            user!.Balance += balance;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            return user.Balance += balance;
         }
 
-        public Task<IEnumerable<Transaction>> GetAllTransactionsByUserId(int userId)
+        public async Task<IEnumerable<Transaction>> GetAllTransactionsByUserId(int userId)
         {
-            throw new NotImplementedException();
+            var data = await _context.Transactions.Where(x=>x.UserId == userId).ToListAsync();
+            return data;
+
         }
 
-        public Task<decimal> GetUserBalance(int userId)
+        public async Task<decimal> GetUserBalance(int userId)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(userId);
+            return user!.Balance;
         }
     }
 }
