@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities.Authentication;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,22 @@ namespace GameStore.Infrastructure.Repositories
 {
     internal class AuthRepository : IAuthRepository
     {
-        public Task<User> CheckUserByUserName(string userName)
+        readonly GameStoreDbContext _context;
+        public AuthRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<string> Login(User user)
+        public async Task<User?> Login(User user)
         {
-            throw new NotImplementedException();
+            var data = await _context.Users.Include(x=>x.Role).Where(x=>x.UserName == user.UserName).FirstOrDefaultAsync();
+            return data;
         }
 
-        public Task<User> Register(User user)
+        public async Task Register(User user)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
     }
 }
