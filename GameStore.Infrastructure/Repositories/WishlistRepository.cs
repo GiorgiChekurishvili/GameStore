@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,32 @@ namespace GameStore.Infrastructure.Repositories
 {
     internal class WishlistRepository : IWishlistRepository
     {
-        public Task AddGameToWishlist(Wishlist wishlist)
+        readonly GameStoreDbContext _context;
+        public WishlistRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<int> AddGameToWishlist(Wishlist wishlist)
+        {
+            await _context.Wishlist.AddAsync(wishlist);
+            await _context.SaveChangesAsync();
+            return wishlist.Id;
         }
 
-        public Task<IEnumerable<Game>> GetWishlistGames(int userId)
+        public async Task<IEnumerable<Wishlist>> GetWishlistGames(int userId)
         {
-            throw new NotImplementedException();
+            var wishlistGames = await _context.Wishlist.Include(x=>x.Game).Where(x=>x.UserId == userId).ToListAsync();
+            return wishlistGames;
         }
 
-        public Task RemoveGameFromWishlist(Wishlist wishlist)
+        public async Task RemoveGameFromWishlist(Wishlist wishlist)
         {
-            throw new NotImplementedException();
+            var game = await _context.Wishlist.Where(x=>x.UserId == wishlist.UserId && x.GamedId ==  wishlist.GamedId).FirstOrDefaultAsync();
+            if (game != null)
+            {
+                _context.Wishlist.Remove(game);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
