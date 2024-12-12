@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,41 +9,53 @@ using System.Threading.Tasks;
 
 namespace GameStore.Infrastructure.Repositories
 {
-    internal class GameRepository : IGameRepository
+    public class GameRepository : IGameRepository
     {
-        public Task<int> AddGame(Game game)
+        readonly GameStoreDbContext _context;
+        public GameRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<int> AddGame(Game game)
+        {
+            await _context.Games.AddAsync(game);
+            await _context.SaveChangesAsync();
+            return game.Id;
+            
         }
 
-        public Task DeleteGame(int gameId)
+        public async Task DeleteGame(int gameId)
         {
-            throw new NotImplementedException();
+            var findData = await _context.Games.FindAsync(gameId);
+            if (findData != null)
+            {
+                _context.Games.Remove(findData);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<Game>> GetAllGames()
+        public async Task<IEnumerable<Game>> GetAllGames()
         {
-            throw new NotImplementedException();
+            var games = await _context.Games.ToListAsync();
+            return games;
         }
 
-        public Task<IEnumerable<Game>> GetAllGamesByCategory(int categoryId)
+        public async Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId)
         {
-            throw new NotImplementedException();
+            var GameByPublisher = await _context.Games.Where(x=>x.PublisherId == UserId).ToListAsync();
+            return GameByPublisher;
         }
 
-        public Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId)
+        public async Task<Game> GetGameById(int gameId)
         {
-            throw new NotImplementedException();
+            var GameById = await _context.Games.FindAsync(gameId);
+            return GameById!;
         }
 
-        public Task<IEnumerable<Game>> GetGameById(int gameId)
+        public async Task UpdateGame(Game game)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateGame(Game game)
-        {
-            throw new NotImplementedException();
+            _context.Games.Entry(game).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
