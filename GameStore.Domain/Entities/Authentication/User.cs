@@ -15,8 +15,9 @@ namespace GameStore.Domain.Entities.Authentication
         public byte[]? PasswordSalt { get; set; }
         public decimal Balance { get; set; }
         public DateTime UserCreated { get; set; } = DateTime.Now;
+        public int RoleId { get; set; }
+        public Role? Role { get; set; }
 
-        public ICollection<UserRole>? Roles { get; set; }
         public ICollection<Cart>? Carts { get; set; }
         public ICollection<Game>? Publishers {  get; set; }
         public ICollection<Game>? Developers { get; set; }

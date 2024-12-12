@@ -11,6 +11,6 @@ namespace GameStore.Domain.Entities.Authentication
     {
         public required string RoleName { get; set; }
 
-        public ICollection<UserRole>? Users { get; set; }
+        public ICollection<User>? Users { get; set; }
     }
 }
