@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,44 @@ using System.Threading.Tasks;
 
 namespace GameStore.Infrastructure.Repositories
 {
-    internal class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
-        public Task<int> AddCategory(string CategoryName)
+        readonly GameStoreDbContext _context;
+        public CategoryRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<int> AddCategory(Category category)
+        {
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
+            return category.Id;
         }
 
-        public Task DeleteCategory(int categoryId)
+        public async Task DeleteCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            var data = await _context.Categories.FindAsync(categoryId);
+            if (data != null)
+                _context.Categories.Remove(data);
+            
         }
 
-        public Task<IEnumerable<Category>> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            throw new NotImplementedException();
+            var data = await _context.Categories.ToListAsync();
+            return data;
         }
 
-        public Task<IEnumerable<Game>> GetAllGamesByCategory(int categoryId)
+        public async Task<IEnumerable<Category>> GetAllGamesByCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            var GamesByCategory = await _context.Categories.Include(x=>x.Games).Where(x=>x.Id == categoryId).ToListAsync();
+            return GamesByCategory;
         }
 
-        public Task UpdateCategory(Category category)
+        public async Task UpdateCategory(Category category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Entry(category).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
