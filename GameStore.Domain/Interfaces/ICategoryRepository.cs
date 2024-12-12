@@ -10,7 +10,8 @@ namespace GameStore.Domain.Interfaces
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllCategories();
-        Task<int> AddCategory(string CategoryName);
+        Task<IEnumerable<Category>> GetAllGamesByCategory(int categoryId);
+        Task<int> AddCategory(Category category);
         Task UpdateCategory(Category category);
         Task DeleteCategory(int categoryId);
     }
