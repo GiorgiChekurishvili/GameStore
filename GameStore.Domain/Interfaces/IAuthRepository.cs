@@ -9,8 +9,7 @@ namespace GameStore.Domain.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<string> Login(User user);
-        Task<User> Register(User user);
-        Task<User> CheckUserByUserName(string userName);
+        Task<User?> Login(User user);
+        Task Register(User user);
     }
 }

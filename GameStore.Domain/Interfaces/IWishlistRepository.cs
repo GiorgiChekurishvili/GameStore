@@ -9,9 +9,9 @@ namespace GameStore.Domain.Interfaces
 {
     public interface IWishlistRepository
     {
-        Task AddGameToWishlist(Wishlist wishlist);
+        Task<int> AddGameToWishlist(Wishlist wishlist);
         Task RemoveGameFromWishlist(Wishlist wishlist);
-        Task<IEnumerable<Game>> GetWishlistGames(int userId);
+        Task<IEnumerable<Wishlist>> GetWishlistGames(int userId);
         
     }
 }
