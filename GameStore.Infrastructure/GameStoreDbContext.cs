@@ -26,10 +26,7 @@ namespace GameStore.Infrastructure
             modelBuilder.Entity<User>().Property(x => x.UserName).HasMaxLength(20);
             modelBuilder.Entity<User>().Property(x => x.Email).HasMaxLength(254);
             modelBuilder.Entity<User>().Property(u => u.Balance).HasColumnType("decimal(18, 2)").HasDefaultValue(0);
-
-            modelBuilder.Entity<UserRole>().HasKey(x => x.Id);
-            modelBuilder.Entity<UserRole>().HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserRole>().HasOne(x => x.User).WithMany(x => x.Roles).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<User>().HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
 
             modelBuilder.Entity<Cart>().HasKey(x => x.Id);
             modelBuilder.Entity<Cart>().HasOne(x => x.Game).WithMany(x => x.Carts).HasForeignKey(x => x.GameId);
@@ -79,7 +76,6 @@ namespace GameStore.Infrastructure
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Game> Games { get; set; }
