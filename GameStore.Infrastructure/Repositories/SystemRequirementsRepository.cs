@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,28 @@ namespace GameStore.Infrastructure.Repositories
 {
     internal class SystemRequirementsRepository : ISystemRequirementsRepository
     {
-        public Task<int> AddSystemRequirements(SystemRequirement systemRequirement)
+        readonly GameStoreDbContext _context;
+        public SystemRequirementsRepository(GameStoreDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<int> AddSystemRequirements(SystemRequirement systemRequirement)
+        {
+            await _context.SystemRequirements.AddAsync(systemRequirement);
+            await _context.SaveChangesAsync();
+            return systemRequirement.Id;
         }
 
-        public Task<IEnumerable<SystemRequirement>> GetSystemRequirementsForGame(int gameId)
+        public async Task<IEnumerable<SystemRequirement>> GetSystemRequirementsForGame(int gameId)
         {
-            throw new NotImplementedException();
+            var data = await _context.SystemRequirements.Include(x=>x.Game).Where(x=>x.GameId == gameId).ToListAsync();
+            return data;
         }
 
-        public Task UpdateSystemRequirements(SystemRequirement systemRequirement)
+        public async Task UpdateSystemRequirements(SystemRequirement systemRequirement)
         {
-            throw new NotImplementedException();
+            _context.SystemRequirements.Entry(systemRequirement).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
