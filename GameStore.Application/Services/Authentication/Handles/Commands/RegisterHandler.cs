@@ -39,6 +39,7 @@ namespace GameStore.Application.Services.Authentication.Handles.Commands
             var map = _mapper.Map<User>(request.User);
             map.PasswordHash = PasswordHash;
             map.PasswordSalt = PasswordSalt;
+            map.RoleId = 2;
             await _authRepository.Register(map);
             return Unit.Value;
         }
