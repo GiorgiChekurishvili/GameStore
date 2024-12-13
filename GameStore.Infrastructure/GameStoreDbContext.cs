@@ -20,7 +20,12 @@ namespace GameStore.Infrastructure
         {
             modelBuilder.Entity<Role>().HasKey(x => x.Id);
             modelBuilder.Entity<Role>().HasIndex(x => x.RoleName).IsUnique();
-
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, RoleName = "Admin" },
+                new Role { Id = 2, RoleName = "Customer" },
+                new Role { Id = 3, RoleName = "Developer"},
+                new Role { Id = 4, RoleName = "Publisher"}
+                );
             modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<User>().HasIndex(x => new { x.UserName, x.Email }).IsUnique();
             modelBuilder.Entity<User>().Property(x => x.UserName).HasMaxLength(20);
