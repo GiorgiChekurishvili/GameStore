@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.Categories.Handles.Queries
 {
-    public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesRequest, CategoryUpdateDTO>
+    public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesRequest, IEnumerable<CategoriesRetrieveDTO>>
     {
         readonly ICategoryRepository _categoryRepository;
         readonly IMapper _mapper;
@@ -21,10 +21,10 @@ namespace GameStore.Application.Services.Categories.Handles.Queries
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
-        public async Task<CategoryUpdateDTO> Handle(GetAllCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoriesRetrieveDTO>> Handle(GetAllCategoriesRequest request, CancellationToken cancellationToken)
         {
             var data = await _categoryRepository.GetAllCategories();
-            var map = _mapper.Map<CategoryUpdateDTO>(data);
+            var map = _mapper.Map<IEnumerable<CategoriesRetrieveDTO>>(data);
             return map;
         }
     }
