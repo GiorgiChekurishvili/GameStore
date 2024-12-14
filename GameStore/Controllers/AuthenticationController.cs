@@ -20,7 +20,7 @@ namespace GameStore.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginUserDTO loginUser)
         {
             try
@@ -28,20 +28,16 @@ namespace GameStore.Api.Controllers
                 var login = await _mediator.Send(new LoginRequest { UserDTO = loginUser });
                 return Ok(login);
             }
-            catch (ValidationException ex)
+            catch (NotFoundException)
             {
-                return BadRequest(ex.Errors);
+                return NotFound("User not found");
             }
-            catch (NotFoundException ex)
+            catch (BadRequestException)
             {
-                return NotFound(ex.Message);
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest("Password is incorrect");
             }
         }
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO registerUser)
         {
             try
@@ -53,14 +49,6 @@ namespace GameStore.Api.Controllers
             catch (ValidationException ex)
             {
                 return BadRequest(ex.Errors);
-            }
-            catch(NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch(BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
             }
         }
 
