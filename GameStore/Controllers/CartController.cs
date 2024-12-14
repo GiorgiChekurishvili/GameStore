@@ -19,8 +19,8 @@ namespace GameStore.Api.Controllers
         {
             _mediator = mediator;
         }
-        [HttpGet("GetCartGames")]
         [Authorize]
+        [HttpGet("GetCartGames")]
         public async Task<ActionResult<IEnumerable<CartRetrieveDTO>>> GetCartGames()
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
@@ -28,8 +28,8 @@ namespace GameStore.Api.Controllers
             return Ok(data);
 
         }
-        [HttpPost("AddGameToCart")]
         [Authorize]
+        [HttpPost("AddGameToCart")]
         public async Task<IActionResult> AddGameToCart(int gameId)
         {
             try
@@ -46,25 +46,25 @@ namespace GameStore.Api.Controllers
 
 
         }
-        [HttpPost("CheckoutGames")]
         [Authorize]
+        [HttpPost("CheckoutGames")]
         public async Task<IActionResult> CheckoutGames()
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             await _mediator.Send(new CheckoutGamesRequest { UserId = userId });
             return Ok();
-            
+
         }
-        [HttpDelete("RemoveAllGamesFromCart")]
         [Authorize]
+        [HttpDelete("RemoveAllGamesFromCart")]
         public async Task<IActionResult> RemoveAllGamesFromCart()
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             await _mediator.Send(new RemoveAllGamesFromCartRequest { UserId = userId });
             return Ok();
         }
-        [HttpDelete("RemoveGameFromCartRequest")]
         [Authorize]
+        [HttpDelete("RemoveGameFromCartRequest")]
         public async Task<IActionResult> RemoveGameFromCartRequest(int gameId)
         {
             try
