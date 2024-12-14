@@ -11,7 +11,8 @@ namespace GameStore.Application.DTOs.CategoryDTO.Validators
     {
         public CategoryUpdateDTOValidator()
         {
-            RuleFor(x => x.Id).GreaterThan(0).WithMessage("Id must be a posiitve number");
+            RuleFor(x => x.Id).NotEmpty()
+                .GreaterThan(0).WithMessage("Id must be a posiitve number");
         }
     }
 }
