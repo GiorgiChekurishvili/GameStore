@@ -25,6 +25,7 @@ namespace GameStore.Application.Profiles
             CreateMap<RegisterUserDTO, User>();
             CreateMap<CategoryUpdateDTO, Category>();
             CreateMap<Category, GameByCategoryRetrieveDTO>();
+            CreateMap<Category,CategoriesRetrieveDTO>();
             CreateMap<Cart, CartRetrieveDTO>();
             CreateMap<CartCommandsDTO, Cart>();
             CreateMap<Game, GamesRetrieveDTO>();
