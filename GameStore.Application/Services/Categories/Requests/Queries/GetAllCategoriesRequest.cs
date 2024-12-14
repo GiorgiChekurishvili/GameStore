@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.Categories.Requests.Queries
 {
-    public class GetAllCategoriesRequest : IRequest<CategoryUpdateDTO>
+    public class GetAllCategoriesRequest : IRequest<IEnumerable<CategoriesRetrieveDTO>>
     {
 
     }
