@@ -9,8 +9,8 @@ namespace GameStore.Domain.Interfaces
 {
     public interface ILibraryRepository
     {
-        Task<IEnumerable<Library>> GeAllLibraryGames();
-        Task<Library> GetLibraryGameById(int gameId);
+        Task<IEnumerable<Library>> GeAllLibraryGames(int userId);
+        Task<Library> GetLibraryGameById(int gameId, int userId);
 
     }
 }

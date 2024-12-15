@@ -16,15 +16,15 @@ namespace GameStore.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Library>> GeAllLibraryGames()
+        public async Task<IEnumerable<Library>> GeAllLibraryGames(int userId)
         {
-            var libraryGames = await _context.Libraries.Include(x => x.Game).ToListAsync();
+            var libraryGames = await _context.Libraries.Include(x => x.Game).Where(x=>x.UserId == userId).ToListAsync();
             return libraryGames;
         }
 
-        public async Task<Library> GetLibraryGameById(int gameId)
+        public async Task<Library> GetLibraryGameById(int gameId, int userId)
         {
-            var libraryGame = await _context.Libraries.Include(x=>x.Game).Where(x=>x.GameId ==  gameId).FirstOrDefaultAsync();
+            var libraryGame = await _context.Libraries.Include(x=>x.Game).Where(x=>x.UserId == userId && x.GameId == gameId).FirstOrDefaultAsync();
             return libraryGame!;
         }
     }
