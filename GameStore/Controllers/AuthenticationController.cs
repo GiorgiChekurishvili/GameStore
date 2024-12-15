@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using ValidationException = GameStore.Application.Exceptions.ValidationException;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GameStore.Api.Controllers
 {

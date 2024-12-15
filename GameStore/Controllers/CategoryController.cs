@@ -5,7 +5,6 @@ using GameStore.Application.Services.Categories.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 
 
 namespace GameStore.Api.Controllers
