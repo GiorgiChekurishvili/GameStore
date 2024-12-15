@@ -11,5 +11,6 @@ namespace GameStore.Application.Services.VideoGames.Requests.Commands
     public class AddGameRequest : IRequest<int>
     {
         public required GameUploadUpdateDTO GameUploadDTO { get; set; }
+        public required int PublisherId { get; set; }
     }
 }
