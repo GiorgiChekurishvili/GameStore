@@ -10,6 +10,7 @@ namespace GameStore.Application.Services.SystemRequirements.Requests.Commands
 {
     public class UpdateSystemRequirementsRequest : IRequest<Unit>
     {
+        public int Id { get; set; }
         public SystemRequirementsUploadUpdateDTO? SysUpdateDTO { get; set; }
     }
 }

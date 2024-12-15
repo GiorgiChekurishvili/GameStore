@@ -36,6 +36,7 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
             if (data.Count() >= 2)
                 throw new BadRequestException("there is already 2 System requirement type for this game ");
             var map = _mapper.Map<SystemRequirement>(request.SysUpdateDTO);
+            map.Id = request.Id;
             await _repository.UpdateSystemRequirements(map);
             return Unit.Value;
         }
