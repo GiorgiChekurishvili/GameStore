@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.VideoGames.Requests.Queries
 {
-    public class GetAllGamesByPublisherId : IRequest<IEnumerable<GamesRetrieveDTO>>
+    public class GetAllGamesByPublisherIdRequest : IRequest<IEnumerable<GamesRetrieveDTO>>
     {
         public int UserId { get; set; }
     }
