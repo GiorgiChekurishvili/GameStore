@@ -9,6 +9,6 @@ namespace GameStore.Application.DTOs.TransactionDTO
     public class FIllBalanceTransactionDTO
     {
         public int UserId { get; set; }
-        public int Balance { get; set; }
+        public decimal Balance { get; set; }
     }
 }
