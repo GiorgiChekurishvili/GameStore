@@ -31,7 +31,7 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task RemoveGameFromWishlist(Wishlist wishlist)
         {
-            var game = await _context.Wishlist.Where(x=>x.UserId == wishlist.UserId && x.GamedId ==  wishlist.GamedId).FirstOrDefaultAsync();
+            var game = await _context.Wishlist.Where(x=>x.UserId == wishlist.UserId && x.GameId ==  wishlist.GameId).FirstOrDefaultAsync();
             if (game != null)
             {
                 _context.Wishlist.Remove(game);
