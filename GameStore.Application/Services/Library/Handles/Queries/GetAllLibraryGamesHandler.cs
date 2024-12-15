@@ -22,7 +22,7 @@ namespace GameStore.Application.Services.Library.Handles.Queries
         }
         public async Task<IEnumerable<LibraryRetrieveDTO>> Handle(GetAllLibraryGamesRequest request, CancellationToken cancellationToken)
         {
-            var data = await _libraryRepository.GeAllLibraryGames();
+            var data = await _libraryRepository.GeAllLibraryGames(request.UserId);
             var map = _mapper.Map<IEnumerable<LibraryRetrieveDTO>>(data);
             return map;
         }
