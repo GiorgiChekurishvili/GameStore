@@ -39,6 +39,7 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
                 }
             }
             var game = _mapper.Map<Game>(request.GameUploadDTO);
+            game.PublisherId = request.PublisherId;
             var id = await _gameRepository.AddGame(game);
             return id;
         }
