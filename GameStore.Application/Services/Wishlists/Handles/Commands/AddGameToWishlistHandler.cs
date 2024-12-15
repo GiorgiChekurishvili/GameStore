@@ -36,12 +36,12 @@ namespace GameStore.Application.Services.Wishlists.Handles.Commands
                 throw new ValidationException(validationResult);
 
             var game = await _gameRepository.GetGameById(request.Wishlist!.GameId);
-            if (game != null)
+            if (game == null)
             {
-                var map = _mapper.Map<Wishlist>(request.Wishlist);
-                await _wishlistRepository.AddGameToWishlist(map);
-                return Unit.Value;
+                throw new NotFoundException("this game isnt available");
             }
+            var map = _mapper.Map<Wishlist>(request.Wishlist);
+            await _wishlistRepository.AddGameToWishlist(map);
             return Unit.Value;
         }
     }
