@@ -10,6 +10,7 @@ namespace GameStore.Application.Services.Wishlists.Requests.Commands
 {
     public class RemoveGameFromWishlistRequest : IRequest<Unit>
     {
-        public WishlistUploadDTO? WishlistRemove { get; set; }
+        public int UserId { get; set; }
+        public int GameId { get; set; }
     }
 }

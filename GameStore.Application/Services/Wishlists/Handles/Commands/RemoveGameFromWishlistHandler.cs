@@ -14,16 +14,14 @@ namespace GameStore.Application.Services.Wishlists.Handles.Commands
     public class RemoveGameFromWishlistHandler : IRequestHandler<RemoveGameFromWishlistRequest, Unit>
     {
         readonly IWishlistRepository _wishlistRepository;
-        readonly IMapper _mapper;
-        public RemoveGameFromWishlistHandler(IWishlistRepository wishlistRepository, IMapper mapper, IGameRepository gameRepository)
+        public RemoveGameFromWishlistHandler(IWishlistRepository wishlistRepository, IGameRepository gameRepository)
         {
             _wishlistRepository = wishlistRepository;
-            _mapper = mapper;
         }
         public async Task<Unit> Handle(RemoveGameFromWishlistRequest request, CancellationToken cancellationToken)
         {
-            var map = _mapper.Map<Wishlist>(request.WishlistRemove);
-            await _wishlistRepository.RemoveGameFromWishlist(map);
+            var wishlist = new Wishlist { GameId = request.GameId, UserId = request.UserId };
+            await _wishlistRepository.RemoveGameFromWishlist(wishlist);
             return Unit.Value;
         }
     }
