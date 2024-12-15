@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.VideoGames.Handles.Queries
 {
-    public class GetAllGamesByPublisherIdHandler : IRequestHandler<GetAllGamesByPublisherId, IEnumerable<GamesRetrieveDTO>>
+    public class GetAllGamesByPublisherIdHandler : IRequestHandler<GetAllGamesByPublisherIdRequest, IEnumerable<GamesRetrieveDTO>>
     {
         readonly IGameRepository _gameRepository;
         readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace GameStore.Application.Services.VideoGames.Handles.Queries
             _mapper = mapper;
             _gameRepository = gameRepository;
         }
-        public async Task<IEnumerable<GamesRetrieveDTO>> Handle(GetAllGamesByPublisherId request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GamesRetrieveDTO>> Handle(GetAllGamesByPublisherIdRequest request, CancellationToken cancellationToken)
         {
             var data = await _gameRepository.GetAllGamesByPublisherId(request.UserId);
             if (data == null)
