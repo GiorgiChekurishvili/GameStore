@@ -10,6 +10,7 @@ namespace GameStore.Application.Services.Library.Requests.Queries
 {
     public class GetLibraryGameByIdRequest : IRequest<LibraryRetrieveDTO>
     {
-        public int Id { get; set; }
+        public int GameId { get; set; }
+        public int UserId { get; set; }
     }
 }

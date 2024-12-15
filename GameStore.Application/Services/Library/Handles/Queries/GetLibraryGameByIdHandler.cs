@@ -23,7 +23,7 @@ namespace GameStore.Application.Services.Library.Handles.Queries
         }
         public async Task<LibraryRetrieveDTO> Handle(GetLibraryGameByIdRequest request, CancellationToken cancellationToken)
         {
-            var data = await _libraryRepository.GetLibraryGameById(request.Id);
+            var data = await _libraryRepository.GetLibraryGameById(request.GameId, request.UserId);
             if (data == null)
             {
                 throw new NotFoundException("This game in your library doesnt exist");
