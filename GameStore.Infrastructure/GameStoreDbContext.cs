@@ -23,8 +23,7 @@ namespace GameStore.Infrastructure
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, RoleName = "Admin" },
                 new Role { Id = 2, RoleName = "Customer" },
-                new Role { Id = 3, RoleName = "Developer"},
-                new Role { Id = 4, RoleName = "Publisher"}
+                new Role { Id = 3, RoleName = "Publisher"}
                 );
             modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<User>().HasIndex(x => new { x.UserName, x.Email }).IsUnique();
@@ -73,7 +72,7 @@ namespace GameStore.Infrastructure
 
             modelBuilder.Entity<Wishlist>().HasKey(x => x.Id);
             modelBuilder.Entity<Wishlist>().HasOne(x => x.User).WithMany(x => x.Wishlists).HasForeignKey(x => x.UserId);
-            modelBuilder.Entity<Wishlist>().HasOne(x => x.Game).WithMany(x => x.Wishlists).HasForeignKey(x => x.GamedId);
+            modelBuilder.Entity<Wishlist>().HasOne(x => x.Game).WithMany(x => x.Wishlists).HasForeignKey(x => x.GameId);
 
 
 
