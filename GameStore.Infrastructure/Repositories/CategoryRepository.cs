@@ -39,7 +39,8 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Category>> GetAllGamesByCategory(int categoryId)
         {
-            var GamesByCategory = await _context.Categories.Include(x=>x.Games).Where(x=>x.Id == categoryId).ToListAsync();
+            var GamesByCategory = await _context.Categories.Include(x=>x.Games)!
+                .ThenInclude(x=>x.Game).Where(x=>x.Id == categoryId).ToListAsync();
             return GamesByCategory;
         }
 
