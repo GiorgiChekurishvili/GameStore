@@ -3,6 +3,7 @@ using GameStore.Application.Exceptions;
 using GameStore.Application.Services.SystemRequirements.Requests.Commands;
 using GameStore.Application.Services.SystemRequirements.Requests.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Api.Controllers
@@ -30,6 +31,8 @@ namespace GameStore.Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Publisher")]
         [HttpPost("AddSystemRequirements")]
         public async Task<IActionResult> AddSystemRequirements([FromBody] SystemRequirementsUploadUpdateDTO systemRequirements)
         {

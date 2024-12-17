@@ -20,7 +20,7 @@ namespace GameStore.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetAllLibraryGames")]
         public async Task<ActionResult<IEnumerable<LibraryRetrieveDTO>>> GetAllLibraryGames()
         {
@@ -28,7 +28,8 @@ namespace GameStore.Api.Controllers
             var games = await _mediator.Send(new GetAllLibraryGamesRequest { UserId = userId});
             return Ok(games);
         }
-        [Authorize]
+
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetLibraryGameById/{id}")]
         public async Task<ActionResult<LibraryRetrieveDTO>> GetLibraryGameById(int gameid)
         {

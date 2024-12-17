@@ -3,6 +3,8 @@ using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Authentication.Requests.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using ValidationException = GameStore.Application.Exceptions.ValidationException;
 
@@ -49,6 +51,11 @@ namespace GameStore.Api.Controllers
             {
                 return BadRequest(ex.Errors);
             }
+            catch (DbUpdateException)
+            {
+                return BadRequest("Email or UserName of that type already exists");
+            }
+
         }
 
     }

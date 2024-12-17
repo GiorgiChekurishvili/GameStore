@@ -32,7 +32,7 @@ namespace GameStore.Api.Controllers
             return Ok(categories);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddCategory")]
         public async Task<IActionResult> AddCategory(string CategoryName)
         {
@@ -47,7 +47,7 @@ namespace GameStore.Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> UpdateCategory(int id, string CategoryName)
         {
@@ -67,7 +67,7 @@ namespace GameStore.Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

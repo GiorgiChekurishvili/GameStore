@@ -3,6 +3,7 @@ using GameStore.Application.Exceptions;
 using GameStore.Application.Services.VideoGames.Requests.Commands;
 using GameStore.Application.Services.VideoGames.Requests.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -39,6 +40,7 @@ namespace GameStore.Api.Controllers
             return Ok(game);
         }
 
+        [Authorize(Roles = "Publisher")]
         [HttpPost("AddGame")]
         public async Task<IActionResult> AddGame([FromBody] GameUploadUpdateDTO gameUpload)
         {
@@ -58,6 +60,7 @@ namespace GameStore.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Publisher")]
         [HttpPut("UpdateGame/{id}")]
         public async Task<IActionResult> UpdateGame(int id, [FromBody] GameUploadUpdateDTO updateDTO)
         {
@@ -82,6 +85,7 @@ namespace GameStore.Api.Controllers
             
         }
 
+        [Authorize(Roles = "Publisher")]
         [HttpDelete("DeleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {

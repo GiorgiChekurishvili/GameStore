@@ -19,7 +19,7 @@ namespace GameStore.Api.Controllers
         {
             _mediator = mediator;
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetCartGames")]
         public async Task<ActionResult<IEnumerable<CartRetrieveDTO>>> GetCartGames()
         {
@@ -28,7 +28,7 @@ namespace GameStore.Api.Controllers
             return Ok(data);
 
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost("AddGameToCart")]
         public async Task<IActionResult> AddGameToCart(int gameId)
         {
@@ -46,7 +46,7 @@ namespace GameStore.Api.Controllers
 
 
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost("CheckoutGames")]
         public async Task<IActionResult> CheckoutGames()
         {
@@ -55,7 +55,7 @@ namespace GameStore.Api.Controllers
             return Ok();
 
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpDelete("RemoveAllGamesFromCart")]
         public async Task<IActionResult> RemoveAllGamesFromCart()
         {
@@ -63,7 +63,7 @@ namespace GameStore.Api.Controllers
             await _mediator.Send(new RemoveAllGamesFromCartRequest { UserId = userId });
             return Ok();
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpDelete("RemoveGameFromCartRequest")]
         public async Task<IActionResult> RemoveGameFromCartRequest(int gameId)
         {

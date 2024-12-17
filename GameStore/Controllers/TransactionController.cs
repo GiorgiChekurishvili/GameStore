@@ -21,7 +21,7 @@ namespace GameStore.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetAllTransactionsByUserId")]
         public async Task<ActionResult<IEnumerable<TransactionRetrieveDTO>>> GetAllTransactionsByUserId()
         {
@@ -31,7 +31,7 @@ namespace GameStore.Api.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetUserBalance")]
         public async Task<IActionResult> GetUserBalance()
         {
@@ -40,7 +40,7 @@ namespace GameStore.Api.Controllers
             return Ok("Balance: " + balance);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost("FillBalance")]
         public async Task<IActionResult> FillUserBalance(decimal balance)
         {

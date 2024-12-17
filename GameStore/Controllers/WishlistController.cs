@@ -21,7 +21,7 @@ namespace GameStore.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetWishlistGames")]
         public async Task<ActionResult<IEnumerable<WishlistRetrieveDTO>>> GetWishlistGames()
         {
@@ -30,7 +30,7 @@ namespace GameStore.Api.Controllers
             return Ok(games);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost("AddGameToWishlist/{gameId}")]
         public async Task<IActionResult> AddGameToWishlist(int gameId)
         {
@@ -47,8 +47,8 @@ namespace GameStore.Api.Controllers
             }
         }
 
-        [Authorize]
-        [HttpDelete("{gameId}")]
+        [Authorize(Roles = "Customer")]
+        [HttpDelete("RemoveGameFromWishlist/{gameId}")]
         public async Task<IActionResult> RemoveGameFromWishlist(int gameId)
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
