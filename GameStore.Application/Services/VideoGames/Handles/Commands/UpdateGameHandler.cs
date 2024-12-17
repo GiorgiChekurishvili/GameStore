@@ -31,20 +31,14 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            var datas = await _gameRepository.GetAllGames();
-            foreach (var data in datas)
-            {
-                if (data.Name.ToLower() == request.GameUpdateDTO.Name!.ToLower())
-                {
-                    throw new BadRequestException("Game Already Exists");
-                }
-            }
             var gameId = await _gameRepository.GetGameById(request.Id);
             if ( gameId == null )
             {
                 throw new NotFoundException("Game not found()");
             }
             var map = _mapper.Map<Game>(request.GameUpdateDTO);
+            map.Id = request.Id;
+            map.PublisherId = request.PublisherId;
             await _gameRepository.UpdateGame(map);
             return Unit.Value;
         }
