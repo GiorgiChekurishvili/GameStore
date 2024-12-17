@@ -26,9 +26,10 @@ namespace GameStore.Infrastructure
                 new Role { Id = 3, RoleName = "Publisher"}
                 );
             modelBuilder.Entity<User>().HasKey(x => x.Id);
-            modelBuilder.Entity<User>().HasIndex(x => new { x.UserName, x.Email }).IsUnique();
             modelBuilder.Entity<User>().Property(x => x.UserName).HasMaxLength(20);
             modelBuilder.Entity<User>().Property(x => x.Email).HasMaxLength(254);
+            modelBuilder.Entity<User>().HasIndex(x => x.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(x => x.UserName).IsUnique();
             modelBuilder.Entity<User>().Property(u => u.Balance).HasColumnType("decimal(18, 2)").HasDefaultValue(0);
             modelBuilder.Entity<User>().HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
 
