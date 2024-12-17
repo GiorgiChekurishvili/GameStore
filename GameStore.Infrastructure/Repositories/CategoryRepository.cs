@@ -27,7 +27,12 @@ namespace GameStore.Infrastructure.Repositories
         {
             var data = await _context.Categories.FindAsync(categoryId);
             if (data != null)
+            {
                 _context.Categories.Remove(data);
+                await _context.SaveChangesAsync();
+            }
+
+
             
         }
 
@@ -46,6 +51,11 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task UpdateCategory(Category category)
         {
+            var existingCategory = await _context.Categories.FindAsync(category.Id);
+            if (existingCategory != null)
+            {
+                _context.Entry(existingCategory).State = EntityState.Detached;
+            }
             _context.Categories.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
