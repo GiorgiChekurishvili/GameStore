@@ -66,7 +66,8 @@ namespace GameStore.Api.Controllers
         {
             try
             {
-                await _mediator.Send(new UpdateGameRequest { Id = id, GameUpdateDTO = updateDTO });
+                var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                await _mediator.Send(new UpdateGameRequest { Id = id, GameUpdateDTO = updateDTO, PublisherId = userId });
                 return Ok();
             }
             catch (ValidationException ex)
@@ -77,12 +78,6 @@ namespace GameStore.Api.Controllers
             {
                 return BadRequest(new {Error = ex.Message});
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new { Error = ex.Message });
-            }
-
-            
         }
 
         [Authorize(Roles = "Publisher")]
