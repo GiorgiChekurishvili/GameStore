@@ -22,7 +22,7 @@ namespace GameStore.Infrastructure.Repositories
             user!.Balance += balance;
             _context.Update(user);
             await _context.SaveChangesAsync();
-            return user.Balance += balance;
+            return user.Balance;
         }
 
         public async Task<IEnumerable<Transaction>> GetAllTransactionsByUserId(int userId)
