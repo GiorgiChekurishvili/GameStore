@@ -26,7 +26,11 @@ namespace GameStore.Application.Profiles
             CreateMap<CategoryUpdateDTO, Category>();
             CreateMap<Category, GameByCategoryRetrieveDTO>();
             CreateMap<Category,CategoriesRetrieveDTO>();
-            CreateMap<Cart, CartRetrieveDTO>();
+            CreateMap<Cart, CartRetrieveDTO>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game!.Name))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Game!.Description))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Game!.Price))
+                .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src => src.Game!.ReleaseDate));
             CreateMap<CartCommandsDTO, Cart>();
             CreateMap<Game, GamesRetrieveDTO>();
             CreateMap<GameUploadUpdateDTO, Game>()
