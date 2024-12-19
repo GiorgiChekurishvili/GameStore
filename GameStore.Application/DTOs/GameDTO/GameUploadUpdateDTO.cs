@@ -19,5 +19,6 @@ namespace GameStore.Application.DTOs.GameDTO
         public int DeveloperId { get; set; }
         [Required]
         public List<int>? CategoryIds { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }
