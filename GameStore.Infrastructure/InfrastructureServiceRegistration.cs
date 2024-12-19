@@ -31,6 +31,7 @@ namespace GameStore.Infrastructure
             services.AddScoped<ISystemRequirementsRepository, SystemRequirementsRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IWishlistRepository, WishlistRepository>();
+            services.AddScoped<IGameCategoryRepository, GameCategoryRepository>();
 
             return services;
         }
