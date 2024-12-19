@@ -12,7 +12,7 @@ namespace GameStore.Application.DTOs.GameDTO
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public DateTime ReleaseDate { get; set; } = DateTime.Now;
+        public DateTime ReleaseDate { get; set; }
         public List<string>? Categories { get; set; }
 
     }
