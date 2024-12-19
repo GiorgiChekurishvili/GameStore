@@ -24,13 +24,15 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task CheckoutGames(int userId)
         {
-            var data = await _context.Carts.Where(x=>x.UserId == userId).ToListAsync();
+            var data = await _context.Carts.Include(x=>x.User).Include(x=>x.Game).Where(x=>x.UserId == userId).ToListAsync();
+
             
             foreach (var item in data)
             {
                 Library library = new Library { GameId = item.GameId, UserId = item.UserId };
                 await _context.Libraries.AddAsync(library);
                 _context.Carts.Remove(item);
+                item.User!.Balance -= item.Game!.Price;
 
             }
             await _context.SaveChangesAsync();
@@ -62,6 +64,16 @@ namespace GameStore.Infrastructure.Repositories
             var data = await _context.Carts.Where(x=> x.UserId == cart.UserId && x.GameId == cart.GameId).FirstOrDefaultAsync();
             _context.Remove(data!);
             await _context.SaveChangesAsync();
+        }
+        public async Task<decimal> TotalPriceOfCartGames(int userId)
+        {
+            decimal totalPrice = 0;
+            var cartItems = await _context.Carts.Include(x=>x.Game).Where(x => x.UserId == userId).ToListAsync();
+            foreach (var item in cartItems)
+            {
+                totalPrice += item.Game!.Price;
+            }
+            return totalPrice;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace GameStore.Domain.Interfaces
         Task CheckoutGames(int userId);
         Task RemoveGameFromCart(Cart cart);
         Task RemoveAllGamesFromCart(int userId);
+        Task<decimal> TotalPriceOfCartGames(int userId);
 
     }
 }
