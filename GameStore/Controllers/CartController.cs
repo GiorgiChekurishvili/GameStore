@@ -5,6 +5,7 @@ using GameStore.Application.Services.Carts.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 
@@ -43,6 +44,14 @@ namespace GameStore.Api.Controllers
             {
                 return BadRequest(ex.Errors);
             }
+            catch(DbUpdateException)
+            {
+                return NotFound("Game not found");
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
 
         }
@@ -50,9 +59,15 @@ namespace GameStore.Api.Controllers
         [HttpPost("CheckoutGames")]
         public async Task<IActionResult> CheckoutGames()
         {
+            try {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             await _mediator.Send(new CheckoutGamesRequest { UserId = userId });
             return Ok();
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
         [Authorize(Roles = "Customer")]
@@ -77,6 +92,10 @@ namespace GameStore.Api.Controllers
             catch (ValidationException ex)
             {
                 return BadRequest(ex.Errors);
+            }
+            catch (ArgumentNullException)
+            {
+                return NotFound("Game not found in your cart");
             }
         }
     }
