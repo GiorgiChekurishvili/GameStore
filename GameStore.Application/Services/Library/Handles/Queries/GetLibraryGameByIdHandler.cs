@@ -4,11 +4,6 @@ using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Library.Requests.Queries;
 using GameStore.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.Library.Handles.Queries
 {
@@ -26,7 +21,7 @@ namespace GameStore.Application.Services.Library.Handles.Queries
             var data = await _libraryRepository.GetLibraryGameById(request.GameId, request.UserId);
             if (data == null)
             {
-                throw new NotFoundException("This game in your library doesnt exist");
+                throw new NotFoundException("This game doesnt exist in your library ");
             }
             var map = _mapper.Map<LibraryRetrieveDTO>(data);
             return map;
