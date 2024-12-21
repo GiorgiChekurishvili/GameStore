@@ -33,19 +33,28 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Game>> GetAllGames()
         {
-            var games = await _context.Games.Include(x => x.Categories)!.ThenInclude(x => x.Category).ToListAsync();
+            var games = await _context.Games
+                .Include(x => x.Categories)!.ThenInclude(x => x.Category)
+                .Include(x=>x.Publisher)
+                .Include(x=>x.Developer).ToListAsync();
             return games;
         }
 
         public async Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId)
         {
-            var GameByPublisher = await _context.Games.Include(x => x.Categories).ThenInclude(x => x.Category).Where(x => x.PublisherId == UserId).ToListAsync();
+            var GameByPublisher = await _context.Games
+                .Include(x => x.Categories)!.ThenInclude(x => x.Category)
+                .Include(x => x.Publisher)
+                .Include(x => x.Developer).Where(x => x.PublisherId == UserId).ToListAsync();
             return GameByPublisher;
         }
 
         public async Task<Game> GetGameById(int gameId)
         {
-            var GameById = await _context.Games.Include(x => x.Categories)!.ThenInclude(x => x.Category).FirstOrDefaultAsync(x => x.Id == gameId);
+            var GameById = await _context.Games
+                .Include(x => x.Categories)!.ThenInclude(x => x.Category)
+                .Include(x=>x.Publisher)
+                .Include(x => x.Developer).FirstOrDefaultAsync(x => x.Id == gameId);
             return GameById!;
         }
 
