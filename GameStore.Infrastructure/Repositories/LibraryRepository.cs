@@ -2,10 +2,7 @@
 using GameStore.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameStore.Infrastructure.Repositories
 {
@@ -18,13 +15,15 @@ namespace GameStore.Infrastructure.Repositories
         }
         public async Task<IEnumerable<Library>> GeAllLibraryGames(int userId)
         {
-            var libraryGames = await _context.Libraries.Include(x => x.Game).Where(x=>x.UserId == userId).ToListAsync();
+            var libraryGames = await _context.Libraries.Include(x => x.Game)
+                .ThenInclude(x => x.Categories)!
+                .ThenInclude(x => x.Category).Where(x => x.UserId == userId).ToListAsync();
             return libraryGames;
         }
 
         public async Task<Library> GetLibraryGameById(int gameId, int userId)
         {
-            var libraryGame = await _context.Libraries.Include(x=>x.Game).Where(x=>x.UserId == userId && x.GameId == gameId).FirstOrDefaultAsync();
+            var libraryGame = await _context.Libraries.Include(x => x.Game).ThenInclude(x => x.Categories)!.ThenInclude(x => x.Category).Where(x => x.UserId == userId && x.GameId == gameId).FirstOrDefaultAsync();
             return libraryGame!;
         }
     }
