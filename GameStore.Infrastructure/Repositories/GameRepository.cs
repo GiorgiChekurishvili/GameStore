@@ -2,10 +2,7 @@
 using GameStore.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameStore.Infrastructure.Repositories
 {
@@ -21,7 +18,7 @@ namespace GameStore.Infrastructure.Repositories
             await _context.Games.AddAsync(game);
             await _context.SaveChangesAsync();
             return game.Id;
-            
+
         }
 
         public async Task DeleteGame(int gameId)
@@ -36,19 +33,19 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Game>> GetAllGames()
         {
-            var games = await _context.Games.ToListAsync();
+            var games = await _context.Games.Include(x => x.Categories)!.ThenInclude(x => x.Category).ToListAsync();
             return games;
         }
 
         public async Task<IEnumerable<Game>> GetAllGamesByPublisherId(int UserId)
         {
-            var GameByPublisher = await _context.Games.Where(x=>x.PublisherId == UserId).ToListAsync();
+            var GameByPublisher = await _context.Games.Include(x => x.Categories).ThenInclude(x => x.Category).Where(x => x.PublisherId == UserId).ToListAsync();
             return GameByPublisher;
         }
 
         public async Task<Game> GetGameById(int gameId)
         {
-            var GameById = await _context.Games.FindAsync(gameId);
+            var GameById = await _context.Games.Include(x => x.Categories)!.ThenInclude(x => x.Category).FirstOrDefaultAsync(x => x.Id == gameId);
             return GameById!;
         }
 
