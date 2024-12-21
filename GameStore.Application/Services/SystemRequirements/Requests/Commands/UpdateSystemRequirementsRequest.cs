@@ -12,5 +12,6 @@ namespace GameStore.Application.Services.SystemRequirements.Requests.Commands
     {
         public int Id { get; set; }
         public SystemRequirementsUploadUpdateDTO? SysUpdateDTO { get; set; }
+        public int PublisherId { get; set; }
     }
 }
