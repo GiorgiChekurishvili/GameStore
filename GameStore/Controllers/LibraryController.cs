@@ -4,7 +4,6 @@ using GameStore.Application.Services.Library.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 
 
@@ -25,23 +24,23 @@ namespace GameStore.Api.Controllers
         public async Task<ActionResult<IEnumerable<LibraryRetrieveDTO>>> GetAllLibraryGames()
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-            var games = await _mediator.Send(new GetAllLibraryGamesRequest { UserId = userId});
+            var games = await _mediator.Send(new GetAllLibraryGamesRequest { UserId = userId });
             return Ok(games);
         }
 
         [Authorize(Roles = "Customer")]
         [HttpGet("GetLibraryGameById/{id}")]
-        public async Task<ActionResult<LibraryRetrieveDTO>> GetLibraryGameById(int gameid)
+        public async Task<ActionResult<LibraryRetrieveDTO>> GetLibraryGameById(int id)
         {
             try
             {
                 var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-                var game = await _mediator.Send(new GetLibraryGameByIdRequest { GameId = gameid, UserId = userId});
+                var game = await _mediator.Send(new GetLibraryGameByIdRequest { GameId = id, UserId = userId });
                 return Ok(game);
             }
             catch (NotFoundException ex)
             {
-                return BadRequest(new {Error = ex.Message});
+                return BadRequest(new { Error = ex.Message });
             }
         }
     }
