@@ -9,6 +9,8 @@ namespace GameStore.Application.DTOs.GameDTO
         public string? Name { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
+        public string? Publisher { get; set; }
+        public string? Developer { get; set; }
         public DateTime ReleaseDate { get; set; }
         public IEnumerable<string>? Categories { get; set; }
 
