@@ -5,6 +5,7 @@ using GameStore.Application.Services.SystemRequirements.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace GameStore.Api.Controllers
 {
@@ -18,11 +19,11 @@ namespace GameStore.Api.Controllers
             _mediator = mediator;
         }
         [HttpGet("GetSystemRequirementsForGame/{id}")]
-        public async Task<ActionResult<IEnumerable<SystemRequirementsRetrieveDTO>>> GetSystemRequirementsForGame(int Gameid)
+        public async Task<ActionResult<IEnumerable<SystemRequirementsRetrieveDTO>>> GetSystemRequirementsForGame(int id)
         {
             try
             {
-                var data = await _mediator.Send(new GetSystemRequirementsForGameRequest { Id = Gameid });
+                var data = await _mediator.Send(new GetSystemRequirementsForGameRequest { Id = id });
                 return Ok(data);
             }
             catch(NotFoundException ex)
@@ -38,7 +39,8 @@ namespace GameStore.Api.Controllers
         {
             try
             {
-                var id = await _mediator.Send(new AddSystemRequirementsRequest { SysUploadDTO = systemRequirements });
+                int publisherId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                var id = await _mediator.Send(new AddSystemRequirementsRequest { SysUploadDTO = systemRequirements, PublisherId = publisherId });
                 return Ok($"System Requirements Id: {id}");
             }
             catch (ValidationException ex)
@@ -56,7 +58,8 @@ namespace GameStore.Api.Controllers
         {
             try
             {
-                await _mediator.Send(new UpdateSystemRequirementsRequest { Id = id, SysUpdateDTO = systemRequirements });
+                int publisherId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                await _mediator.Send(new UpdateSystemRequirementsRequest { Id = id, SysUpdateDTO = systemRequirements, PublisherId = publisherId });
                 return Ok();
             }
             catch (ValidationException ex)
