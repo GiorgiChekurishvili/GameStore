@@ -16,11 +16,13 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
     public class AddSystemRequirementsHandler : IRequestHandler<AddSystemRequirementsRequest, int>
     {
         readonly ISystemRequirementsRepository _repository;
+        readonly IGameRepository _gameRepository;
         readonly IMapper _mapper;
-        public AddSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper)
+        public AddSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper, IGameRepository gameRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _gameRepository = gameRepository;
         }
 
         public async Task<int> Handle(AddSystemRequirementsRequest request, CancellationToken cancellationToken)
@@ -34,8 +36,22 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
             }
 
             var data = await _repository.GetSystemRequirementsForGame(request.SysUploadDTO!.GameId);
-            if (data.Count() >= 2)
-                throw new BadRequestException("there is already 2 System requirement type for this game ");
+            var osCounts = data
+                .GroupBy(d => d.Os)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            string newOs = request.SysUploadDTO.Os!;
+
+            if (osCounts.TryGetValue(newOs, out int currentCount) && currentCount >= 2)
+            {
+                throw new BadRequestException($"There are already 2 entries for the OS '{newOs}'.");
+            }
+
+            var gameDetails = await _gameRepository.GetGameById(request.SysUploadDTO!.GameId);
+            if (gameDetails.PublisherId != request.PublisherId)
+            {
+                throw new BadRequestException("You are not allowed to update system requirements for this game");
+            }
             var map = _mapper.Map<SystemRequirement>(request.SysUploadDTO);
             var id = await _repository.AddSystemRequirements(map);
             return id;
