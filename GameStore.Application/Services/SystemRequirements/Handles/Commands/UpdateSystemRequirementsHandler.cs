@@ -16,11 +16,13 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
     public class UpdateSystemRequirementsHandler : IRequestHandler<UpdateSystemRequirementsRequest, Unit>
     {
         readonly ISystemRequirementsRepository _repository;
+        readonly IGameRepository _gameRepository;
         readonly IMapper _mapper;
-        public UpdateSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper)
+        public UpdateSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper, IGameRepository gameRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _gameRepository = gameRepository;
         }
         public async Task<Unit> Handle(UpdateSystemRequirementsRequest request, CancellationToken cancellationToken)
         {
@@ -32,9 +34,12 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
                 throw new ValidationException(validationResult);
             }
 
-            var data = await _repository.GetSystemRequirementsForGame(request.SysUpdateDTO!.GameId);
-            if (data.Count() >= 2)
-                throw new BadRequestException("there is already 2 System requirement type for this game ");
+            var gameDetails = await _gameRepository.GetGameById(request.SysUpdateDTO!.GameId);
+
+            if (gameDetails.PublisherId != request.PublisherId)
+            {
+                throw new BadRequestException("You are not allowed to update system requirements for this game");
+            }
             var map = _mapper.Map<SystemRequirement>(request.SysUpdateDTO);
             map.Id = request.Id;
             await _repository.UpdateSystemRequirements(map);
