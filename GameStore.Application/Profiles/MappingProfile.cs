@@ -30,7 +30,10 @@ namespace GameStore.Application.Profiles
                 .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src => src.Game!.ReleaseDate));
             CreateMap<CartCommandsDTO, Cart>();
             CreateMap<Game, GamesRetrieveDTO>()
-                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories!.Select(x => x.Category!.CategoryName).ToList()));
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories!.Select(x => x.Category!.CategoryName).ToList()))
+                .ForMember(dest => dest.Publisher, opt => opt.MapFrom(src => src.Publisher!.UserName))
+                .ForMember(dest => dest.Developer, opt => opt.MapFrom(src => src.Developer!.UserName));
+
             CreateMap<GameUploadUpdateDTO, Game>()
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
                 src.CategoryIds!.Select(id => new GameCategory { CategoryId = id }).ToList()));
@@ -38,12 +41,13 @@ namespace GameStore.Application.Profiles
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game!.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Game!.Description))
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Game!.Categories!.Select(x=>x.Category!.CategoryName).ToList()));
-            CreateMap<SystemRequirement, SystemRequirementsUploadUpdateDTO>();
-            CreateMap<SystemRequirementsRetrieveDTO, SystemRequirement>();
+            CreateMap<SystemRequirementsUploadUpdateDTO, SystemRequirement >();
+            CreateMap<SystemRequirement, SystemRequirementsRetrieveDTO>();
             CreateMap<FIllBalanceTransactionDTO, User>();
             CreateMap<Transaction, TransactionRetrieveDTO>();
             CreateMap<WishlistUploadDTO, Wishlist>();
             CreateMap<Wishlist, WishlistRetrieveDTO>();
+            
 
         }
     }
