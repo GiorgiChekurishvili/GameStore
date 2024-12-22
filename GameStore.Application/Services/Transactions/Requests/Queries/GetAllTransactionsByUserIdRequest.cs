@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.Transactions.Requests.Queries
 {
-    public class GetAllTransactionsByUserIdRequest : IRequest<TransactionRetrieveDTO>
+    public class GetAllTransactionsByUserIdRequest : IRequest<IEnumerable<TransactionRetrieveDTO>>
     {
         public int UserId { get; set; }
     }

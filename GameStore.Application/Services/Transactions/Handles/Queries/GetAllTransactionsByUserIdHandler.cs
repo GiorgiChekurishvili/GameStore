@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Services.Transactions.Handles.Queries
 {
-    public class GetAllTransactionsByUserIdHandler : IRequestHandler<GetAllTransactionsByUserIdRequest, TransactionRetrieveDTO>
+    public class GetAllTransactionsByUserIdHandler : IRequestHandler<GetAllTransactionsByUserIdRequest, IEnumerable<TransactionRetrieveDTO>>
     {
         readonly ITransactionRepository _transactionRepository;
         readonly IMapper _mapper;
@@ -20,10 +20,10 @@ namespace GameStore.Application.Services.Transactions.Handles.Queries
             _transactionRepository = transactionRepository;
             _mapper = mapper;
         }
-        public async Task<TransactionRetrieveDTO> Handle(GetAllTransactionsByUserIdRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TransactionRetrieveDTO>> Handle(GetAllTransactionsByUserIdRequest request, CancellationToken cancellationToken)
         {
             var data = await _transactionRepository.GetAllTransactionsByUserId(request.UserId);
-            var map = _mapper.Map<TransactionRetrieveDTO>(data);
+            var map = _mapper.Map<IEnumerable<TransactionRetrieveDTO>>(data);
             return map;
         }
     }
