@@ -21,6 +21,13 @@ namespace GameStore.Infrastructure.Repositories
             var user = await _context.Users.FindAsync(userId);
             user!.Balance += balance;
             _context.Update(user);
+            var transaction = new Transaction
+            {
+                UserId = userId,
+                TransactionsMade = balance,
+                Description = $"Added {balance}$ to balance"
+            };
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
             return user.Balance;
         }
