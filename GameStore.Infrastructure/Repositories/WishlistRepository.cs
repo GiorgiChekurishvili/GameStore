@@ -25,7 +25,11 @@ namespace GameStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Wishlist>> GetWishlistGames(int userId)
         {
-            var wishlistGames = await _context.Wishlist.Include(x=>x.Game).Where(x=>x.UserId == userId).ToListAsync();
+            var wishlistGames = await _context.Wishlist
+                .Include(x => x.Game!).ThenInclude(x => x.Publisher!)
+                .Include(x => x.Game!).ThenInclude(x => x.Developer!)
+                .Include(x => x.Game!).ThenInclude(x => x.Categories!).ThenInclude(x => x.Category!)
+                .Where(x => x.UserId == userId).ToListAsync();
             return wishlistGames;
         }
 
