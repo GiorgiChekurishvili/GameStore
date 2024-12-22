@@ -3,6 +3,8 @@
 GameStore API is a web API for managing games, including functionalities like user registration, purchasing games, wishlist management, and game publishing by developers and publishers. This project is built with ASP.NET Core and uses MediatR, FluentValidation, and other modern technologies.
 ## Features
 
+- **Onion Architecture/Clean Architecture**: The application follows Onion Architecture (or Clean Architecture), promoting separation of concerns, maintainability, and testability by dividing the application into distinct layers.
+- **CQRS Pattern**: Implements Command Query Responsibility Segregation (CQRS) to separate the write operations (commands) from the read operations (queries), improving scalability and performance.
 - **User Management**: Register, log in, and manage users.
 - **Game Management**: Publishers can upload, update, and delete games, and users can view the uploaded games
 - **User Authentication**: JWT-based registration and login.
