@@ -35,6 +35,13 @@ namespace GameStore.Infrastructure.Repositories
                 item.User!.Balance -= item.Game!.Price;
 
             }
+            var transaction = new Transaction
+            {
+                UserId = userId,
+                TransactionsMade = data.Sum(x => x.Game!.Price),
+                Description = $"Purchased {data.Count} games"
+            };
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
 
             
