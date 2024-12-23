@@ -26,7 +26,7 @@ namespace GameStore.Application.Services.Carts.Handles.Queries
         }
         public async Task<IEnumerable<CartRetrieveDTO>> Handle(GetCartGamesRequest request, CancellationToken cancellationToken)
         {
-            var cacheKey = "GetCartGames";
+            var cacheKey = $"GetCartGames-{request.UserId}";
             var cacheData = await _cache.GetStringAsync(cacheKey);
             if (!string.IsNullOrEmpty(cacheData))
             {

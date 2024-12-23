@@ -28,7 +28,7 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Queries
         }
         public async Task<IEnumerable<SystemRequirementsRetrieveDTO>> Handle(GetSystemRequirementsForGameRequest request, CancellationToken cancellationToken)
         {
-            var cacheKey = "GetSystemRequirementsForGame";
+            var cacheKey = $"GetSystemRequirementsForGame-{request.Id}";
             var cacheData = await _cache.GetStringAsync(cacheKey);
             if (!string.IsNullOrEmpty(cacheData))
             {

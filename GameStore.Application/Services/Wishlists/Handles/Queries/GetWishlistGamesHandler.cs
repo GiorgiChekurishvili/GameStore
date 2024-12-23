@@ -27,7 +27,7 @@ namespace GameStore.Application.Services.Wishlists.Handles.Queries
         }
         public async Task<IEnumerable<WishlistRetrieveDTO>> Handle(GetWishlistGamesRequest request, CancellationToken cancellationToken)
         {
-            var cachekey = "GetWishlistGames";
+            var cachekey = $"GetWishlistGames-{request.UserId}";
             var cacheData = await _cache.GetStringAsync(cachekey);
             if (!string.IsNullOrEmpty(cacheData))
             {

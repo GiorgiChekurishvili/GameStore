@@ -27,7 +27,7 @@ namespace GameStore.Application.Services.Categories.Handles.Queries
         }
         public async Task<IEnumerable<CategoriesRetrieveDTO>> Handle(GetAllCategoriesRequest request, CancellationToken cancellationToken)
         {
-            var cachekey = "ShowAllCategories";
+            var cachekey = "GetAllCategories";
             var cacheData = await _cache.GetStringAsync(cachekey);
             if (!string.IsNullOrEmpty(cacheData))
             {
@@ -36,8 +36,8 @@ namespace GameStore.Application.Services.Categories.Handles.Queries
             var data = await _categoryRepository.GetAllCategories();
             var map = _mapper.Map<IEnumerable<CategoriesRetrieveDTO>>(data);
             var cacheOptions = new DistributedCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5))
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+                .SetSlidingExpiration(TimeSpan.FromMinutes(30))
+                .SetAbsoluteExpiration(TimeSpan.FromHours(5));
             await _cache.SetStringAsync(cachekey, JsonConvert.SerializeObject(map), cacheOptions);
             return map;
         }
