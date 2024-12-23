@@ -33,10 +33,10 @@ namespace GameStore.Api.Controllers
             var games = await _mediator.Send(new GetAllGamesByPublisherIdRequest { UserId = publisherId});
             return Ok(games);
         }
-        [HttpGet("GetGameById/{GameId}")]
-        public async Task<ActionResult<GamesRetrieveDTO>> GetGameById(int Gameid)
+        [HttpGet("GetGameById/{id}")]
+        public async Task<ActionResult<GamesRetrieveDTO>> GetGameById(int id)
         {
-            var game = await _mediator.Send(new GetGameByIdRequest { GameId = Gameid });
+            var game = await _mediator.Send(new GetGameByIdRequest { GameId = id });
             return Ok(game);
         }
 
