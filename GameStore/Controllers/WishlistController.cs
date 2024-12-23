@@ -45,6 +45,14 @@ namespace GameStore.Api.Controllers
             {
                 return BadRequest(ex.Errors);  
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(Roles = "Customer")]
