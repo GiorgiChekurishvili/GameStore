@@ -2,6 +2,8 @@
 using GameStore.Application.Services.Transactions.Requests.Queries;
 using GameStore.Domain.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +19,9 @@ namespace GameStore.Application.Services.Transactions.Handles.Queries
         {
             _transactionRepository = transactionRepository;
         }
-        public Task<decimal> Handle(GetUserBalanceRequest request, CancellationToken cancellationToken)
+        public async Task<decimal> Handle(GetUserBalanceRequest request, CancellationToken cancellationToken)
         {
-            var data = _transactionRepository.GetUserBalance(request.UserId);
+            var data = await _transactionRepository.GetUserBalance(request.UserId);
             return data;
         }
     }
