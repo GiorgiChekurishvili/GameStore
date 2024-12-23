@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Cache;
 using GameStore.Application.DTOs.SystemRequirementsDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.SystemRequirements.Requests.Commands;
@@ -18,11 +19,13 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
         readonly ISystemRequirementsRepository _repository;
         readonly IGameRepository _gameRepository;
         readonly IMapper _mapper;
-        public UpdateSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper, IGameRepository gameRepository)
+        readonly ICacheService _cacheService;
+        public UpdateSystemRequirementsHandler(ISystemRequirementsRepository repository, IMapper mapper, IGameRepository gameRepository, ICacheService cacheService)
         {
             _repository = repository;
             _mapper = mapper;
             _gameRepository = gameRepository;
+            _cacheService = cacheService;
         }
         public async Task<Unit> Handle(UpdateSystemRequirementsRequest request, CancellationToken cancellationToken)
         {
@@ -43,6 +46,7 @@ namespace GameStore.Application.Services.SystemRequirements.Handles.Commands
             var map = _mapper.Map<SystemRequirement>(request.SysUpdateDTO);
             map.Id = request.Id;
             await _repository.UpdateSystemRequirements(map);
+            await _cacheService.RemoveCache("GetSystemRequirementsForGame", request.SysUpdateDTO.GameId);
             return Unit.Value;
         }
     }

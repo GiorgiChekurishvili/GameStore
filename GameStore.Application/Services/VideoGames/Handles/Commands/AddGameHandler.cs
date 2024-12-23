@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Cache;
 using GameStore.Application.DTOs.GameDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.VideoGames.Requests.Commands;
@@ -17,10 +18,12 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
     {
         readonly IGameRepository _gameRepository;
         readonly IMapper _mapper;
-        public AddGameHandler(IGameRepository gameRepository, IMapper mapper)
+        readonly ICacheService _cacheService;
+        public AddGameHandler(IGameRepository gameRepository, IMapper mapper, ICacheService cacheService)
         {
             _mapper = mapper;
             _gameRepository = gameRepository;
+            _cacheService = cacheService;
         }
         public async Task<int> Handle(AddGameRequest request, CancellationToken cancellationToken)
         {
@@ -41,6 +44,9 @@ namespace GameStore.Application.Services.VideoGames.Handles.Commands
             var game = _mapper.Map<Game>(request.GameUploadDTO);
             game.PublisherId = request.PublisherId;
             var id = await _gameRepository.AddGame(game);
+            await _cacheService.RemoveCache("GetAllGames");
+            await _cacheService.RemoveCache("GetGameById", id);
+            await _cacheService.RemoveCache("GetAllGamesByPublisher", request.PublisherId);
             return id;
         }
     }

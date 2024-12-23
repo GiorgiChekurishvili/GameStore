@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Cache;
 using GameStore.Application.DTOs.CartDTO;
 using GameStore.Application.DTOs.CartDTO.Validators;
 using GameStore.Application.Exceptions;
@@ -18,10 +19,12 @@ namespace GameStore.Application.Services.Carts.Handles.Commands
     {
         readonly ICartRepository _cartRepository;
         readonly IMapper _mapper;
-        public RemoveGameFromCartHandler(ICartRepository cartRepository, IMapper mapper)
+        readonly ICacheService _cacheService; 
+        public RemoveGameFromCartHandler(ICartRepository cartRepository, IMapper mapper, ICacheService cacheService)
         {
             _cartRepository = cartRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
         public async Task<Unit> Handle(RemoveGameFromCartRequest request, CancellationToken cancellationToken)
         {
@@ -35,6 +38,7 @@ namespace GameStore.Application.Services.Carts.Handles.Commands
 
             var map = _mapper.Map<Cart>(request.CartDTO);
             await _cartRepository.RemoveGameFromCart(map);
+            await _cacheService.RemoveCache("GetCartGames", request.CartDTO!.UserId);
             return Unit.Value;
         }
     }

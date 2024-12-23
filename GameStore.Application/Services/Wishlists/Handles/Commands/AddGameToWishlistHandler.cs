@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Cache;
 using GameStore.Application.DTOs.GameDTO;
 using GameStore.Application.DTOs.WishlistDTO;
 using GameStore.Application.DTOs.WishlistDTO.Validators;
@@ -19,12 +20,16 @@ namespace GameStore.Application.Services.Wishlists.Handles.Commands
     {
         readonly IWishlistRepository _wishlistRepository;
         readonly IGameRepository _gameRepository;
+        readonly ILibraryRepository _libraryRepository;
         readonly IMapper _mapper;
-        public AddGameToWishlistHandler(IWishlistRepository wishlistRepository, IMapper mapper, IGameRepository gameRepository)
+        readonly ICacheService _cacheService;
+        public AddGameToWishlistHandler(IWishlistRepository wishlistRepository, IMapper mapper, IGameRepository gameRepository, ICacheService cacheService, ILibraryRepository libraryRepository)
         {
             _wishlistRepository = wishlistRepository;
             _gameRepository = gameRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
+            _libraryRepository = libraryRepository;
         }
 
         public async Task<Unit> Handle(AddGameToWishlistRequest request, CancellationToken cancellationToken)
@@ -40,8 +45,14 @@ namespace GameStore.Application.Services.Wishlists.Handles.Commands
             {
                 throw new NotFoundException("this game isnt available");
             }
+            var libraryGames = await _libraryRepository.GetLibraryGameById(request.Wishlist.GameId, request.Wishlist.UserId);
+            if (libraryGames != null)
+            {
+                throw new BadRequestException("This game is already in your library");
+            }
             var map = _mapper.Map<Wishlist>(request.Wishlist);
             await _wishlistRepository.AddGameToWishlist(map);
+            await _cacheService.RemoveCache("GetWishlistGames", request.Wishlist.UserId);
             return Unit.Value;
         }
     }

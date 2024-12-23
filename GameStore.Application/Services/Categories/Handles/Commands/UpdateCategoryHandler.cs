@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Application.Cache;
 using GameStore.Application.DTOs.CategoryDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Categories.Requests.Commands;
@@ -17,11 +18,12 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
     {
         readonly ICategoryRepository _categoryRepository;
         readonly IMapper _mapper;
-
-        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IMapper mapper)
+        readonly ICacheService _cacheService;
+        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IMapper mapper, ICacheService cacheService)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
 
         public async Task<Unit> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
@@ -42,6 +44,8 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
             }
             var map = _mapper.Map<Category>(request.Category);
             await _categoryRepository.UpdateCategory(map);
+            await _cacheService.RemoveCache("GetAllCategories");
+            await _cacheService.RemoveCache("GetAllGamesByCategory", request.Category!.Id);
             return Unit.Value;
         }
     }

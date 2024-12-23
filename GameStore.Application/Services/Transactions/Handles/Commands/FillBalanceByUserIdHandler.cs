@@ -1,4 +1,5 @@
-﻿using GameStore.Application.DTOs.TransactionDTO.Validators;
+﻿using GameStore.Application.Cache;
+using GameStore.Application.DTOs.TransactionDTO.Validators;
 using GameStore.Application.Exceptions;
 using GameStore.Application.Services.Transactions.Requests.Commands;
 using GameStore.Domain.Interfaces;
@@ -14,9 +15,11 @@ namespace GameStore.Application.Services.Transactions.Handles.Commands
     internal class FillBalanceByUserIdHandler : IRequestHandler<FillBalanceByUserIdRequest, decimal>
     {
         readonly ITransactionRepository _transactionRepository;
-        public FillBalanceByUserIdHandler(ITransactionRepository transactionRepository)
+        readonly ICacheService _cacheService;
+        public FillBalanceByUserIdHandler(ITransactionRepository transactionRepository, ICacheService cacheService)
         {
             _transactionRepository = transactionRepository;
+            _cacheService = cacheService;
         }
         public async Task<decimal> Handle(FillBalanceByUserIdRequest request, CancellationToken cancellationToken)
         {
@@ -25,6 +28,7 @@ namespace GameStore.Application.Services.Transactions.Handles.Commands
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
             var data = await _transactionRepository.FillBalanceByUserId(request.FillBalance.UserId, request.FillBalance.Balance);
+            await _cacheService.RemoveCache("GetAllTransactionsByUserId", request.FillBalance.UserId);
             return data;
         }
     }
