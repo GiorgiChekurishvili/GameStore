@@ -22,7 +22,7 @@ namespace GameStore.Application.Services.Library.Handles.Queries
         }
         public async Task<LibraryRetrieveDTO> Handle(GetLibraryGameByIdRequest request, CancellationToken cancellationToken)
         {
-            var cachekey = "GetLibraryGameById";
+            var cachekey = $"GetLibraryGameById-{request.GameId}";
             var cacheData = await _cache.GetStringAsync(cachekey);
             if (!string.IsNullOrEmpty(cacheData))
             {
@@ -35,8 +35,8 @@ namespace GameStore.Application.Services.Library.Handles.Queries
             }
             var map = _mapper.Map<LibraryRetrieveDTO>(data);
             var cacheOptions = new DistributedCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5))
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+                .SetSlidingExpiration(TimeSpan.FromMinutes(2))
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
             await _cache.SetStringAsync(cachekey, JsonConvert.SerializeObject(map), cacheOptions);
             return map;
 

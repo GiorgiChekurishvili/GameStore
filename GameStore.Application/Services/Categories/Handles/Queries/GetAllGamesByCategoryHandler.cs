@@ -28,7 +28,7 @@ namespace GameStore.Application.Services.VideoGames.Handles.Queries
         }
         public async Task<IEnumerable<GameByCategoryRetrieveDTO>> Handle(GetAllGamesByCategoryRequest request, CancellationToken cancellationToken)
         {
-            var cachekey = "ShowAllGamesByCategory";
+            var cachekey = $"GetAllGamesByCategory-{request.CategoryId}";
             var cacheData = await _cache.GetStringAsync(cachekey);
             if (!string.IsNullOrEmpty(cacheData))
             {

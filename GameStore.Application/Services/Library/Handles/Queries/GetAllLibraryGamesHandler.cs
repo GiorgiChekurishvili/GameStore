@@ -26,7 +26,7 @@ namespace GameStore.Application.Services.Library.Handles.Queries
         }
         public async Task<IEnumerable<LibraryRetrieveDTO>> Handle(GetAllLibraryGamesRequest request, CancellationToken cancellationToken)
         {
-            var cachekey = "GetAllLibraryGames";
+            var cachekey = $"GetAllLibraryGames-{request.UserId}";
             var cacheData = await _cache.GetStringAsync(cachekey);
             if (!string.IsNullOrEmpty(cacheData))
             {
