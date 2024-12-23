@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using GameStore.Application.Cache;
 
 namespace GameStore.Application
 {
@@ -23,6 +24,7 @@ namespace GameStore.Application
                 var redisCache = configuration.GetSection("RedisCache")["ConnectionString"];
                 options.Configuration = redisCache;
             });
+            services.AddScoped<ICacheService, CacheService>();
             return services;
         }
     }
