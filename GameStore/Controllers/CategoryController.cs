@@ -24,12 +24,18 @@ namespace GameStore.Api.Controllers
             var categories = await _mediator.Send(new GetAllCategoriesRequest());
             return Ok(categories);
         }
-
-        [HttpGet("GetAllGamesByCategory/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<GameByCategoryRetrieveDTO>>> GetAllGamesByCategory(int categoryId)
+        [HttpGet("GetCategoryById/{id}")]
+        public async Task<ActionResult<IEnumerable<CategoriesRetrieveDTO>>> GetCategoryById(int id)
         {
-            var categories = await _mediator.Send(new GetAllGamesByCategoryRequest { CategoryId = categoryId });
-            return Ok(categories);
+            try
+            {
+                var categories = await _mediator.Send(new GetCategoryByIdRequest { Id = id });
+                return Ok(categories);
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [Authorize(Roles = "Admin")]
