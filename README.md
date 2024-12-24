@@ -1,6 +1,6 @@
 # GameStore API
 
-GameStore API is a web API for managing games, including functionalities like user registration, purchasing games, wishlist management, and game publishing by developers and publishers. This project is built with ASP.NET Core and uses MediatR, FluentValidation, and other modern technologies.
+GameStore API is a web API for managing games, including functionalities like user registration, purchasing games, wishlist management, and game publishing by developers and publishers. This project is built with ASP.NET Core and uses MediatR, FluentValidation, Redis caching, and other modern technologies.
 ## Features
 
 - **Onion Architecture/Clean Architecture**: The application follows Onion Architecture (or Clean Architecture), promoting separation of concerns, maintainability, and testability by dividing the application into distinct layers.
@@ -11,6 +11,7 @@ GameStore API is a web API for managing games, including functionalities like us
 - **Purchasing**: Users can buy games and manage their transactions.
 - **Wishlist**: Users can add games to their wishlist.
 - **System Requirements**: Track and display system requirements for each game.
+- **Caching**: Uses Redis for caching frequently accessed data.
 
 ## Technologies Used
 
@@ -21,6 +22,7 @@ GameStore API is a web API for managing games, including functionalities like us
 - **AutoMapper**
 - **Swagger**
 - **Mediatr**
+- **Redis**: For caching.
 
 ## Getting Started
 
@@ -40,7 +42,7 @@ GameStore API is a web API for managing games, including functionalities like us
 2. **Navigate to the project directory:**
 
     ```bash
-    cd EventTicketAPI
+    cd GameStore
     ```
 
 3. **Restore dependencies:**
@@ -91,7 +93,7 @@ GameStore API is a web API for managing games, including functionalities like us
 ### Category
 
 - **GET /api/category/GetAllCategories**: Retrieves all categories of games.
-- **GET /api/category/GetAllGamesByCategory/{categoryId}**: Retrieves all games in a specific category.
+- **GET /api/category/GetCategoryById/{id}**: Retrieves a specific category by its ID.
 - **POST /api/category/AddCategory**: Adds a new game category (Admin only).
 - **PUT /api/category/UpdateCategory/{id}**: Updates an existing category (Admin only).
 - **DELETE /api/category/DeleteCategory/{id}**: Deletes a category (Admin only).
@@ -100,6 +102,7 @@ GameStore API is a web API for managing games, including functionalities like us
 
 - **GET /api/game/GetAllGames**: Retrieves all games available on the platform.
 - **GET /api/game/GetAllGamesByPublisher**: Retrieves all games by a specific publisher.
+- **GET /api/game/GetAllGamesByCategory/{categoryId}**: Retrieves all games by a specific category.
 - **GET /api/game/GetGameById/{gameId}**: Retrieves a specific game by its ID.
 - **POST /api/game/AddGame**: Adds a new game (Publisher only).
 - **PUT /api/game/UpdateGame/{id}**: Updates a specific game (Publisher only).
