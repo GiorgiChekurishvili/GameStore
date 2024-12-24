@@ -42,11 +42,10 @@ namespace GameStore.Infrastructure.Repositories
             return data;
         }
 
-        public async Task<IEnumerable<Category>> GetAllGamesByCategory(int categoryId)
+        public async Task<Category> GetCategoryById(int categoryId)
         {
-            var GamesByCategory = await _context.Categories.Include(x=>x.Games)!
-                .ThenInclude(x=>x.Game).Where(x=>x.Id == categoryId).ToListAsync();
-            return GamesByCategory;
+            var category = await _context.Categories.FindAsync(categoryId);
+            return category!;
         }
 
         public async Task UpdateCategory(Category category)
