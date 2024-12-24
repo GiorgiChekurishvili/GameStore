@@ -37,7 +37,6 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
             Category newCategory = new Category { CategoryName = request.CategoryName };
             var Categoryid = await _categoryRepository.AddCategory(newCategory);
             await _cacheService.RemoveCache("GetAllCategories");
-            await _cacheService.RemoveCache("GetAllGamesByCategory", Categoryid);
             return Categoryid;
         }
     }

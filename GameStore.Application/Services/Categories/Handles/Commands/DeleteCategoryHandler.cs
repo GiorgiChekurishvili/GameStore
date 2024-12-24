@@ -28,6 +28,7 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
             await _categoryRepository.DeleteCategory(request.Id);
             await _cacheService.RemoveCache("GetAllCategories");
             await _cacheService.RemoveCache("GetAllGamesByCategory", request.Id);
+            await _cacheService.RemoveCache("GetCategoryById", request.Id);
             return Unit.Value;
             
         }

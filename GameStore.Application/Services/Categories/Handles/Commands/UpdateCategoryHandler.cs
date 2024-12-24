@@ -46,6 +46,7 @@ namespace GameStore.Application.Services.Categories.Handles.Commands
             await _categoryRepository.UpdateCategory(map);
             await _cacheService.RemoveCache("GetAllCategories");
             await _cacheService.RemoveCache("GetAllGamesByCategory", request.Category!.Id);
+            await _cacheService.RemoveCache("GetCategoryById", request.Category.Id);
             return Unit.Value;
         }
     }
