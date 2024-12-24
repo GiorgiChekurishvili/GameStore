@@ -27,17 +27,32 @@ namespace GameStore.Api.Controllers
             return Ok(games);
         }
 
-        [HttpGet("GetAllGamesByPublisher")]
+        [HttpGet("GetAllGamesByPublisher/{publisherId}")]
         public async Task<ActionResult<IEnumerable<GamesRetrieveDTO>>> GetAllGamesByPublisher(int publisherId)
         {
             var games = await _mediator.Send(new GetAllGamesByPublisherIdRequest { UserId = publisherId});
             return Ok(games);
         }
+
+        [HttpGet("GetAllGamesByCategory/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<GamesRetrieveDTO>>> GetAllGamesByCategory(int categoryId)
+        {
+            var categories = await _mediator.Send(new GetAllGamesByCategoryRequest { CategoryId = categoryId });
+            return Ok(categories);
+        }
+
         [HttpGet("GetGameById/{id}")]
         public async Task<ActionResult<GamesRetrieveDTO>> GetGameById(int id)
         {
-            var game = await _mediator.Send(new GetGameByIdRequest { GameId = id });
-            return Ok(game);
+            try
+            {
+                var game = await _mediator.Send(new GetGameByIdRequest { GameId = id });
+                return Ok(game);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [Authorize(Roles = "Publisher")]

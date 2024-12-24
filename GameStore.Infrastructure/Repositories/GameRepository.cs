@@ -48,7 +48,16 @@ namespace GameStore.Infrastructure.Repositories
                 .Include(x => x.Developer).Where(x => x.PublisherId == UserId).ToListAsync();
             return GameByPublisher;
         }
-
+        public async Task<IEnumerable<Game>> GetAllGamesByCategory(int categoryId)
+        {
+            var GamesByCategory = await _context.Games
+                .Include(x => x.Categories)!
+                .ThenInclude(x => x.Category)
+                .Include(x => x.Publisher)
+                .Include(x => x.Developer)
+                .Where(x => x.Categories!.Any(x => x.CategoryId == categoryId)).ToListAsync();
+            return GamesByCategory;
+        }
         public async Task<Game> GetGameById(int gameId)
         {
             var GameById = await _context.Games
