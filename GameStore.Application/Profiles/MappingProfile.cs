@@ -21,7 +21,6 @@ namespace GameStore.Application.Profiles
             CreateMap<LoginUserDTO, User>();
             CreateMap<RegisterUserDTO, User>();
             CreateMap<CategoryUpdateDTO, Category>();
-            CreateMap<Category, GameByCategoryRetrieveDTO>();
             CreateMap<Category, CategoriesRetrieveDTO>();
             CreateMap<Cart, CartRetrieveDTO>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game!.Name))
@@ -33,7 +32,6 @@ namespace GameStore.Application.Profiles
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories!.Select(x => x.Category!.CategoryName).ToList()))
                 .ForMember(dest => dest.Publisher, opt => opt.MapFrom(src => src.Publisher!.UserName))
                 .ForMember(dest => dest.Developer, opt => opt.MapFrom(src => src.Developer!.UserName));
-
             CreateMap<GameUploadUpdateDTO, Game>()
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
                 src.CategoryIds!.Select(id => new GameCategory { CategoryId = id }).ToList()));
