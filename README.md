@@ -126,7 +126,14 @@ GameStore API is a web API for managing games, including functionalities like us
 
 - **GET /api/transaction/GetAllTransactionsByUserId**: Retrieves all transactions for the logged-in user.
 - **GET /api/transaction/GetUserBalance**: Retrieves the user's current balance.
+- **POST /api/transaction/FillBalance**: Adds balance to a user in order to purchase a game.
 
+
+### Wishlist
+
+- **GET /api/wishlist/GetWishlistGames**: retrieves a list of all games currently in the user's wishlist.
+- **GET /api/wishlist/AddGameToWishlist/{gameId}**: adds a specific game to the user's wishlist using the game ID.
+- **POST /api/wishlist/RemoveGameFromWishlsit/{gameId}**: removes a specific game from the user's wishlist using the game ID.
 
 ## Contributing
 
