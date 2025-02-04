@@ -22,7 +22,7 @@ GameStore API is a web API for managing games, including functionalities like us
 - **AutoMapper**
 - **Swagger**
 - **Mediatr**
-- **Redis**: For caching.
+- **Redis**: For caching using Docker.
 
 ## Getting Started
 
