@@ -137,7 +137,7 @@ GameStore API is a web API for managing games, including functionalities like us
 
 ## Contributing
 
-Feel free to contribute by opening pull requests or issues. Your contributions are welcome!
+Feel free to contribute by opening pull requests or issues. Your contributions are welcome.
 
 ## Security
 JWT authentication is used for securing the endpoints.
